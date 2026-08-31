@@ -301,4 +301,1975 @@ button.secondary {
             circle,
             rgba(201,170,99,.12),
             transparent 68%
-       
+        );
+
+    pointer-events: none;
+}
+
+.desk {
+    width: min(78vw, 420px);
+    height: 1px;
+    background: var(--line);
+    margin: 30px 0;
+}
+
+/* =========================
+   CARD
+========================= */
+
+.draw-area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    height: 45vh;
+
+    position: relative;
+}
+
+.card {
+    width: min(40vw, 145px);
+    aspect-ratio: 2 / 3;
+
+    border: 1px solid var(--gold-soft);
+
+    background:
+        linear-gradient(
+            135deg,
+            #111827,
+            #080c14
+        );
+
+    box-shadow:
+        0 20px 50px var(--shadow);
+
+    position: absolute;
+
+    transform:
+        translate(
+            var(--x),
+            var(--y)
+        )
+        rotate(var(--r));
+
+    transition:
+        transform .6s cubic-bezier(.22,.61,.36,1),
+        border-color .4s;
+
+    cursor: pointer;
+}
+
+.card::before {
+    content: "";
+    position: absolute;
+    inset: 8px;
+
+    border: 1px solid rgba(201,170,99,.22);
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(201,170,99,.07),
+            transparent 65%
+        );
+}
+
+.card-back-symbol {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: var(--gold);
+    font-size: 1.3rem;
+}
+
+.card.picked {
+    transform: translate(0,0) rotateY(180deg) scale(1.04);
+    border-color: var(--gold);
+}
+
+/* =========================
+   CARD REVEAL
+========================= */
+
+.revealed-card {
+    width: min(34vw, 125px);
+    aspect-ratio: 2 / 3;
+
+    border: 1px solid var(--gold);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin: 18px auto 25px;
+
+    background:
+        radial-gradient(
+            circle at 50% 35%,
+            rgba(201,170,99,.15),
+            transparent 60%
+        );
+
+    box-shadow:
+        0 18px 55px rgba(0,0,0,.55);
+}
+
+.card-number {
+    font-family: var(--sans);
+    font-size: .7rem;
+    letter-spacing: .18em;
+    color: var(--muted);
+}
+
+.card-name {
+    color: var(--gold);
+    font-size: 1.3rem;
+    margin-top: 8px;
+}
+
+/* =========================
+   REVISION
+========================= */
+
+.revision-mark {
+    font-size: 2rem;
+    color: var(--gold);
+    margin-bottom: 22px;
+}
+
+.revision-copy {
+    max-width: 450px;
+    line-height: 2;
+}
+
+/* =========================
+   SMALL ROOM
+========================= */
+
+#scene-koboeya {
+    background:
+        radial-gradient(
+            circle at 50% 45%,
+            rgba(201,170,99,.07),
+            transparent 50%
+        ),
+        #05070b;
+}
+
+.door {
+    width: 150px;
+    height: 220px;
+
+    border: 1px solid var(--gold-soft);
+
+    margin-bottom: 28px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: var(--gold);
+
+    box-shadow:
+        0 20px 70px rgba(0,0,0,.6);
+}
+
+.door span {
+    font-size: 1.8rem;
+}
+
+/* =========================
+   ADVICE
+========================= */
+
+.advice-paper {
+    width: min(88vw, 460px);
+
+    padding: 28px 24px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(238,228,210,.97),
+            rgba(222,210,190,.97)
+        );
+
+    color: var(--ink);
+
+    box-shadow:
+        0 25px 70px rgba(0,0,0,.55);
+
+    text-align: left;
+}
+
+.advice-paper .small {
+    color: #746d62;
+}
+
+.advice-paper p {
+    line-height: 1.8;
+}
+
+/* =========================
+   SHIORI
+========================= */
+
+.shiori {
+    width: min(88vw, 430px);
+
+    padding: 30px 25px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #eee4d2,
+            #e0d2b9
+        );
+
+    color: var(--ink);
+
+    box-shadow:
+        0 25px 70px rgba(0,0,0,.5);
+
+    text-align: left;
+}
+
+.shiori-title {
+    color: #806b42;
+    font-family: var(--sans);
+    font-size: .65rem;
+    letter-spacing: .2em;
+    margin-bottom: 20px;
+}
+
+.shiori-story {
+    font-size: .82rem;
+    line-height: 1.8;
+    white-space: pre-line;
+}
+
+.shiori-word {
+    color: #7b5e2c;
+    font-size: .9rem;
+    margin: 15px 0;
+}
+
+/* =========================
+   ANIMATIONS
+========================= */
+
+.fade {
+    animation: fadeUp .9s ease both;
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.breathe {
+    animation: breathe 4s ease-in-out infinite;
+}
+
+@keyframes breathe {
+    0%,100% { opacity: .55; }
+    50% { opacity: 1; }
+}
+
+/* =========================
+   DESKTOP
+========================= */
+
+@media (min-width: 700px) {
+
+    .scene {
+        padding-left: 40px;
+        padding-right: 40px;
+    }
+
+    .button-row {
+        width: 280px;
+    }
+
+    .draw-area {
+        height: 52vh;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div id="app">
+
+    <!-- =====================
+         HOME
+    ====================== -->
+
+    <section id="scene-home" class="scene active">
+
+        <div class="home-mark fade">
+            結
+        </div>
+
+        <h1 class="fade">結の札</h1>
+
+        <p class="small fade" style="margin-top:12px;">
+            一枚の札から、物語がひらく。
+        </p>
+
+        <div style="height:35px;"></div>
+
+        <p class="lead fade">
+            ここでは、答えを当てません。<br>
+            ひとつのことを、<br>
+            いつもと少し違う場所から眺めてみます。
+        </p>
+
+        <button
+            class="fade"
+            style="margin-top:35px;"
+            onclick="startExperience()">
+            物語をはじめる
+        </button>
+
+    </section>
+
+
+    <!-- =====================
+         THEME
+    ====================== -->
+
+    <section id="scene-theme" class="scene">
+
+        <div class="library-light"></div>
+
+        <p class="small fade">🔔</p>
+
+        <div style="height:25px;"></div>
+
+        <p class="fade">
+            「いらっしゃいませ。」
+        </p>
+
+        <div class="desk fade"></div>
+
+        <p class="lead fade">
+            今日は、何を眺めてみますか？
+        </p>
+
+        <input
+            id="user-theme"
+            class="text-input fade"
+            type="text"
+            maxlength="80"
+            placeholder="一言でも大丈夫です">
+
+        <button
+            class="fade"
+            onclick="submitTheme()">
+            この問いを抱く
+        </button>
+
+    </section>
+
+
+    <!-- =====================
+         DRAW
+    ====================== -->
+
+    <section id="scene-draw" class="scene">
+
+        <p class="small fade">
+            THE ARCANA
+        </p>
+
+        <p class="lead fade" style="margin-top:10px;">
+            22の札が、静かに待っています。
+        </p>
+
+        <div class="draw-area" id="draw-area">
+        </div>
+
+        <p class="small breathe">
+            一枚、引く。
+        </p>
+
+    </section>
+
+
+    <!-- =====================
+         CARD WORLD
+    ====================== -->
+
+    <section id="scene-card-world" class="scene">
+
+        <div class="library-light"></div>
+
+        <p class="small fade" id="world-card-name">
+            THE MOON
+        </p>
+
+        <div class="revealed-card fade">
+            <div>
+                <div class="card-number" id="world-number">
+                    XVIII
+                </div>
+                <div class="card-name" id="world-name">
+                    月
+                </div>
+            </div>
+        </div>
+
+        <p class="small fade">
+            この札の世界へ。
+        </p>
+
+    </section>
+
+
+    <!-- =====================
+         STORY 1
+    ====================== -->
+
+    <section id="scene-story1" class="scene">
+
+        <p class="eyebrow" id="story1-card-name">
+            THE MOON
+        </p>
+
+        <div
+            id="story1-text"
+            class="story fade">
+        </div>
+
+        <div style="height:20px;"></div>
+
+        <p class="small fade">
+            ……何か、目に留まるものはありますか。
+        </p>
+
+        <input
+            id="user-word"
+            class="text-input fade"
+            type="text"
+            maxlength="100"
+            placeholder="一言で大丈夫です">
+
+        <button
+            class="fade"
+            onclick="submitWord()">
+            言葉を刻む
+        </button>
+
+    </section>
+
+
+    <!-- =====================
+         STORY 2
+    ====================== -->
+
+    <section id="scene-story2" class="scene">
+
+        <p class="eyebrow fade">
+            物語が、少し動く。
+        </p>
+
+        <div
+            id="story2-text"
+            class="story fade">
+        </div>
+
+        <button
+            class="fade"
+            style="margin-top:30px;"
+            onclick="finishMainStory()">
+            本を閉じる
+        </button>
+
+    </section>
+
+
+    <!-- =====================
+         RETURN
+    ====================== -->
+
+    <section id="scene-return" class="scene">
+
+        <p class="small fade">🔔</p>
+
+        <div style="height:25px;"></div>
+
+        <p class="lead fade">
+            本が、静かに閉じる。
+        </p>
+
+        <div class="desk fade"></div>
+
+        <p class="fade">
+            今日は、ここまで。
+        </p>
+
+        <button
+            class="fade"
+            style="margin-top:35px;"
+            onclick="startRevision()">
+            リビジョン
+        </button>
+
+        <p
+            class="small fade"
+            style="margin-top:14px;">
+            同じ札を、もうひとつの角度から。
+        </p>
+
+    </section>
+
+
+    <!-- =====================
+         REVISION
+    ====================== -->
+
+    <section id="scene-revision" class="scene">
+
+        <div class="revision-mark fade">
+            ◇
+        </div>
+
+        <p class="eyebrow fade">
+            REVISION
+        </p>
+
+        <p class="revision-copy fade">
+            さっきの物語とは、別の物語。<br>
+            けれど、同じ札を眺めています。
+        </p>
+
+        <div style="height:30px;"></div>
+
+        <div
+            id="revision-story-text"
+            class="story fade">
+        </div>
+
+        <button
+            class="fade"
+            style="margin-top:28px;"
+            onclick="completeRevision()">
+            本を閉じる
+        </button>
+
+    </section>
+
+
+    <!-- =====================
+         COMPLETE
+    ====================== -->
+
+    <section id="scene-complete" class="scene">
+
+        <p class="small fade">🔔</p>
+
+        <div style="height:25px;"></div>
+
+        <h2 class="fade">
+            物語は、ここまで。
+        </h2>
+
+        <p class="lead fade" style="margin-top:20px;">
+            あなたが話してくれた言葉が、<br>
+            少しだけ物語に宿りました。
+        </p>
+
+        <p
+            class="small fade"
+            style="margin-top:25px;">
+            感じ方は、あなたのものです。
+        </p>
+
+        <div class="button-row fade">
+
+            <button onclick="gotoSummary()">
+                物語を持ち帰る
+            </button>
+
+            <button
+                class="secondary"
+                onclick="gotoKoboeya()">
+                もう少し、カードと遊ぶ
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================
+         SUMMARY
+    ====================== -->
+
+    <section id="scene-summary" class="scene">
+
+        <div class="shiori fade">
+
+            <div class="shiori-title">
+                YUI NO FUDA
+            </div>
+
+            <p
+                class="small"
+                id="summary-card-name">
+            </p>
+
+            <p
+                class="small"
+                style="margin-top:8px;">
+                テーマ：
+                <span id="summary-theme"></span>
+            </p>
+
+            <hr style="
+                border:none;
+                border-top:1px solid rgba(80,70,55,.2);
+                margin:18px 0;
+            ">
+
+            <div
+                id="summary-story1"
+                class="shiori-story">
+            </div>
+
+            <div
+                id="summary-word"
+                class="shiori-word">
+            </div>
+
+            <div
+                id="summary-story2"
+                class="shiori-story">
+            </div>
+
+            <hr style="
+                border:none;
+                border-top:1px solid rgba(80,70,55,.2);
+                margin:18px 0;
+            ">
+
+            <div
+                id="summary-revision"
+                class="shiori-story">
+            </div>
+
+        </div>
+
+        <button
+            style="margin-top:25px;"
+            onclick="returnToDaily()">
+            日常へ帰る
+        </button>
+
+    </section>
+
+
+    <!-- =====================
+         SMALL ROOM
+    ====================== -->
+
+    <section id="scene-koboeya" class="scene">
+
+        <div class="door fade">
+            <span>扉</span>
+        </div>
+
+        <p class="small fade">
+            小さな部屋。
+        </p>
+
+        <div style="height:22px;"></div>
+
+        <p class="fade">
+            店主が、奥に立っている。
+        </p>
+
+        <p class="small fade" style="margin-top:10px;">
+            何も言わない。
+        </p>
+
+        <div
+            id="koboeya-action"
+            class="fade"
+            style="margin-top:35px;">
+
+            <p class="small">
+                裏向きの札を一枚、
+                静かに差し出した。
+            </p>
+
+            <button
+                style="margin-top:20px;"
+                onclick="drawAdviceFuda()">
+                引く
+            </button>
+
+        </div>
+
+        <div
+            id="koboeya-result"
+            style="display:none; width:100%;">
+
+            <div
+                class="revealed-card"
+                style="margin-top:5px;">
+                <div>
+                    <div
+                        class="card-number"
+                        id="advice-number">
+                    </div>
+                    <div
+                        class="card-name"
+                        id="advice-card-name">
+                    </div>
+                </div>
+            </div>
+
+            <div
+                id="advice-text"
+                class="advice-paper fade">
+            </div>
+
+            <button
+                style="margin-top:20px;"
+                onclick="gotoSummaryWithAdvice()">
+                この一手を持ち帰る
+            </button>
+
+        </div>
+
+    </section>
+
+</div>
+
+
+<script>
+/* =========================================================
+   結の札
+   Scene-based Story Experience
+========================================================= */
+
+const state = {
+    currentScene: "home",
+
+    userTheme: "",
+    userWord: "",
+
+    mainCard: null,
+    adviceCard: null,
+
+    story1: "",
+    story2: "",
+    revisionStory: "",
+    adviceText: ""
+};
+
+
+/* =========================================================
+   TAROT
+   22枚すべて使用
+   逆位置なし
+========================================================= */
+
+const tarots = [
+
+    {
+        id: 0,
+        number: "0",
+        name: "愚者",
+        en: "THE FOOL",
+        world:
+`朝の駅。
+行き先の書かれていない切符が一枚、落ちている。
+
+列車は、もうすぐ出る。
+
+ホームの端で風が吹き、
+帽子が少しだけ浮いた。
+
+まだ、どこへ行くのかは分からない。`
+    },
+
+    {
+        id: 1,
+        number: "I",
+        name: "魔術師",
+        en: "THE MAGICIAN",
+        world:
+`古い机の上に、
+小さな道具が並んでいる。
+
+コップ。
+鍵。
+一本の紐。
+そして、白い紙。
+
+何かを始めるには、
+もう十分なものが揃っていた。`
+    },
+
+    {
+        id: 2,
+        number: "II",
+        name: "女教皇",
+        en: "THE HIGH PRIESTESS",
+        world:
+`夜の図書室。
+
+誰もいないはずなのに、
+一冊だけ本が開いている。
+
+ページには文字がない。
+
+窓の外で月が雲に隠れると、
+その白いページだけが、少し明るくなった。`
+    },
+
+    {
+        id: 3,
+        number: "III",
+        name: "女帝",
+        en: "THE EMPRESS",
+        world:
+`庭の木に、赤い実がなっている。
+
+まだ青いものもある。
+今にも落ちそうなものもある。
+
+手を伸ばせば届く実が、
+ひとつだけ、朝の光を受けていた。`
+    },
+
+    {
+        id: 4,
+        number: "IV",
+        name: "皇帝",
+        en: "THE EMPEROR",
+        world:
+`石の机。
+
+その上に、古い地図が広げられている。
+
+線はまっすぐ引かれ、
+境界には印がある。
+
+窓の外では風が強い。
+
+それでも、地図は動かなかった。`
+    },
+
+    {
+        id: 5,
+        number: "V",
+        name: "法王",
+        en: "THE HIEROPHANT",
+        world:
+`古い門の前に立つ。
+
+門の向こうには、
+長い廊下が続いている。
+
+壁には、
+何人もの人が残した小さな印。
+
+自分もそこへ何かを残せるようだった。`
+    },
+
+    {
+        id: 6,
+        number: "VI",
+        name: "恋人",
+        en: "THE LOVERS",
+        world:
+`午後の広場。
+
+二つの道が、
+同じ場所から伸びている。
+
+誰かが隣に立っている。
+
+何も言わない。
+
+ただ、同じ方向を見ている。`
+    },
+
+    {
+        id: 7,
+        number: "VII",
+        name: "戦車",
+        en: "THE CHARIOT",
+        world:
+`朝。
+
+二頭の馬が、
+門の前で待っている。
+
+右へ行こうとする馬。
+左へ行こうとする馬。
+
+手綱を握ると、
+二頭が同時にこちらを見る。`
+    },
+
+    {
+        id: 8,
+        number: "VIII",
+        name: "力",
+        en: "STRENGTH",
+        world:
+`森の入口。
+
+大きな獣が、
+道の真ん中に座っている。
+
+近づいても逃げない。
+
+手を伸ばす。
+
+獣はしばらくこちらを見て、
+ゆっくり目を閉じた。`
+    },
+
+    {
+        id: 9,
+        number: "IX",
+        name: "隠者",
+        en: "THE HERMIT",
+        world:
+`夕暮れの山道。
+
+遠くに小さな灯りがある。
+
+近づくほど、
+周りの景色は暗くなる。
+
+それでも、
+灯りだけは消えなかった。`
+    },
+
+    {
+        id: 10,
+        number: "X",
+        name: "運命の輪",
+        en: "WHEEL OF FORTUNE",
+        world:
+`古い時計塔。
+
+大きな歯車が回っている。
+
+止まったと思った瞬間、
+また動き出す。
+
+足元に、
+昨日はなかった階段が現れていた。`
+    },
+
+    {
+        id: 11,
+        number: "XI",
+        name: "正義",
+        en: "JUSTICE",
+        world:
+`静かな部屋。
+
+机の上に二つの封筒がある。
+
+重さは同じ。
+
+どちらにも、
+まだ開けられていない。
+
+窓から差す光が、
+机の真ん中をきれいに照らしている。`
+    },
+
+    {
+        id: 12,
+        number: "XII",
+        name: "吊るされた男",
+        en: "THE HANGED MAN",
+        world:
+`雨の日。
+
+橋の下で、
+時間が止まったように水が流れている。
+
+いつもなら見えない景色が、
+逆さまになって見える。
+
+しばらく眺めていると、
+遠くに小さな虹が出た。`
+    },
+
+    {
+        id: 13,
+        number: "XIII",
+        name: "死神",
+        en: "DEATH",
+        world:
+`朝の市場。
+
+一軒の店が、
+今日で閉じるらしい。
+
+棚が空になり、
+古い看板が外されていく。
+
+最後まで残ったのは、
+赤い椅子だった。`
+    },
+
+    {
+        id: 14,
+        number: "XIV",
+        name: "節制",
+        en: "TEMPERANCE",
+        world:
+`静かな台所。
+
+一つの器から、
+もう一つの器へ水を移している。
+
+急がない。
+
+こぼさない。
+
+少しずつ、
+ちょうどいいところまで満ちていく。`
+    },
+
+    {
+        id: 15,
+        number: "XV",
+        name: "悪魔",
+        en: "THE DEVIL",
+        world:
+`地下室。
+
+机の上に、
+赤い紐で結ばれた箱がある。
+
+鍵はすぐ横に置かれている。
+
+なのに、
+誰もそれを取ろうとしない。
+
+箱の中から、
+かすかな音がする。`
+    },
+
+    {
+        id: 16,
+        number: "XVI",
+        name: "塔",
+        en: "THE TOWER",
+        world:
+`夜。
+
+遠くで雷が鳴る。
+
+古い塔の窓から、
+一つ、明かりが消えた。
+
+次の瞬間、
+屋根の一部が崩れる。
+
+煙の向こうに、
+今まで見えなかった空が現れた。`
+    },
+
+    {
+        id: 17,
+        number: "XVII",
+        name: "星",
+        en: "THE STAR",
+        world:
+`夜明け前。
+
+水辺に、
+小さな光が浮かんでいる。
+
+手を近づけると、
+それは星のように揺れた。
+
+空にも同じ光がある。
+
+水面と空が、
+一瞬だけつながった。`
+    },
+
+    {
+        id: 18,
+        number: "XVIII",
+        name: "月",
+        en: "THE MOON",
+        world:
+`夜道。
+
+水たまりに、
+月が揺れている。
+
+遠くで何かが動いた。
+
+人のようにも見える。
+木の影のようにも見える。
+
+よく見えない。
+
+それでも、
+道は先へ続いている。`
+    },
+
+    {
+        id: 19,
+        number: "XIX",
+        name: "太陽",
+        en: "THE SUN",
+        world:
+`朝。
+
+カーテンを開ける。
+
+部屋いっぱいに光が入る。
+
+昨日まで見えなかった傷も、
+机の上の小さな埃も、
+全部見える。
+
+それでも、
+窓を開けると風が気持ちよかった。`
+    },
+
+    {
+        id: 20,
+        number: "XX",
+        name: "審判",
+        en: "JUDGEMENT",
+        world:
+`まだ眠っている街。
+
+遠くから、
+鐘の音が聞こえる。
+
+一度。
+
+また一度。
+
+閉じていた窓が、
+少しずつ開いていく。
+
+誰かが、
+朝を知らせている。`
+    },
+
+    {
+        id: 21,
+        number: "XXI",
+        name: "世界",
+        en: "THE WORLD",
+        world:
+`長い旅の終わり。
+
+丘の上から、
+歩いてきた道を振り返る。
+
+遠くに街がある。
+
+足元には、
+最初に拾った小さな石。
+
+いつの間にか、
+それは丸く磨かれていた。`
+    }
+
+];
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function $(id) {
+    return document.getElementById(id);
+}
+
+
+function randomCard() {
+    return tarots[
+        Math.floor(Math.random() * tarots.length)
+    ];
+}
+
+
+/* =========================================================
+   SCENE ENGINE
+========================================================= */
+
+function changeScene(sceneId) {
+
+    const current =
+        document.querySelector(".scene.active");
+
+    const next =
+        $(`scene-${sceneId}`);
+
+    if (!next || current === next) return;
+
+    if (current) {
+        current.classList.add("leaving");
+
+        setTimeout(() => {
+            current.classList.remove("active", "leaving");
+        }, 650);
+    }
+
+    setTimeout(() => {
+        next.classList.add("active");
+    }, 80);
+
+    state.currentScene = sceneId;
+}
+
+
+/* =========================================================
+   BELL
+========================================================= */
+
+function playBell() {
+
+    const audio =
+        new Audio(
+            "https://cdn.pixabay.com/audio/2022/03/15/audio_2d05777085.mp3"
+        );
+
+    audio.volume = .35;
+
+    audio.play().catch(() => {});
+}
+
+
+/* =========================================================
+   START
+========================================================= */
+
+function startExperience() {
+
+    playBell();
+
+    changeScene("theme");
+
+    setTimeout(() => {
+        $("user-theme").focus();
+    }, 800);
+}
+
+
+/* =========================================================
+   THEME
+========================================================= */
+
+function submitTheme() {
+
+    const value =
+        $("user-theme").value.trim();
+
+    if (!value) {
+        $("user-theme").focus();
+        return;
+    }
+
+    state.userTheme = value;
+
+    prepareDrawScene();
+
+    changeScene("draw");
+}
+
+
+function prepareDrawScene() {
+
+    const area = $("draw-area");
+
+    area.innerHTML = "";
+
+    /*
+       22枚を視覚的に重ねる。
+       実際の抽選は22枚すべてを対象とする。
+    */
+
+    for (let i = 0; i < 22; i++) {
+
+        const card =
+            document.createElement("div");
+
+        card.className = "card";
+
+        card.style.setProperty(
+            "--x",
+            `${(Math.random() - .5) * 70}px`
+        );
+
+        card.style.setProperty(
+            "--y",
+            `${(Math.random() - .5) * 45}px`
+        );
+
+        card.style.setProperty(
+            "--r",
+            `${(Math.random() - .5) * 12}deg`
+        );
+
+        card.innerHTML =
+            `<div class="card-back-symbol">結</div>`;
+
+        area.appendChild(card);
+    }
+
+    setTimeout(() => {
+
+        area.onclick = drawMainCard;
+
+    }, 400);
+}
+
+
+/* =========================================================
+   MAIN DRAW
+========================================================= */
+
+function drawMainCard() {
+
+    if (state.mainCard) return;
+
+    state.mainCard = randomCard();
+
+    const cards =
+        document.querySelectorAll(".card");
+
+    const chosen =
+        cards[
+            Math.floor(
+                Math.random() * cards.length
+            )
+        ];
+
+    if (chosen) {
+        chosen.classList.add("picked");
+    }
+
+    setTimeout(() => {
+
+        updateCardWorld();
+
+        changeScene("card-world");
+
+        setTimeout(() => {
+            changeScene("story1");
+            generateStory1();
+        }, 1800);
+
+    }, 700);
+}
+
+
+/* =========================================================
+   CARD WORLD
+========================================================= */
+
+function updateCardWorld() {
+
+    const card = state.mainCard;
+
+    $("world-card-name").textContent =
+        `${card.en}  /  ${card.name}`;
+
+    $("world-number").textContent =
+        card.number;
+
+    $("world-name").textContent =
+        card.name;
+
+    $("story1-card-name").textContent =
+        `${card.en}  /  ${card.name}`;
+}
+
+
+/* =========================================================
+   STORY 1
+========================================================= */
+
+function generateStory1() {
+
+    const card = state.mainCard;
+
+    $("story1-text").textContent =
+        card.world;
+}
+
+
+/* =========================================================
+   USER WORD
+========================================================= */
+
+function submitWord() {
+
+    const value =
+        $("user-word").value.trim();
+
+    if (!value) {
+        $("user-word").focus();
+        return;
+    }
+
+    state.userWord = value;
+
+    changeScene("story2");
+
+    generateStory2();
+}
+
+
+/* =========================================================
+   STORY 2
+========================================================= */
+
+function generateStory2() {
+
+    const card = state.mainCard;
+    const word = state.userWord;
+
+    /*
+       Demo Modeでは、
+       ユーザーの言葉を「解釈」するのではなく、
+       世界の中へそのまま宿す。
+    */
+
+    const endings = {
+
+        "月":
+`水たまりの向こうで、
+影がもう一度動いた。
+
+あなたが「${word}」と言った瞬間、
+雲の切れ間から月が出る。
+
+さっきまで見えなかったものが、
+ほんの少しだけ輪郭を持った。
+
+道は、まだ暗い。
+
+けれど朝は、
+遠くない。`,
+
+        "死神":
+`赤い椅子に、
+あなたの言葉が残った。
+
+店主はそれを聞くと、
+椅子だけを店の外へ運び出した。
+
+店は空になった。
+
+けれど、
+椅子の置かれた場所には、
+新しい朝の光が差していた。`,
+
+        "節制":
+`水を移す手が止まった。
+
+「${word}」
+
+その言葉を置いてから、
+二つの器を見比べる。
+
+どちらかを満たすのではなく、
+少しずつ両方へ。
+
+水面が静かになる。
+
+ちょうどいい場所が、
+少しだけ見えてきた。`
+
+    };
+
+    let result =
+        endings[card.name];
+
+    if (!result) {
+
+        result =
+`風が止まった。
+
+「${word}」
+
+その言葉が、
+この場所に落ちる。
+
+すると、
+今まで気づかなかった小さなものが
+ひとつだけ見えた。
+
+物語は、
+ほんの少しだけ先へ進んだ。`;
+
+    }
+
+    state.story2 = result;
+
+    $("story2-text").textContent =
+        result;
+}
+
+
+/* =========================================================
+   MAIN COMPLETE
+========================================================= */
+
+function finishMainStory() {
+
+    playBell();
+
+    changeScene("return");
+}
+
+
+/* =========================================================
+   REVISION
+========================================================= */
+
+function startRevision() {
+
+    changeScene("revision");
+
+    generateRevisionStory();
+}
+
+
+function generateRevisionStory() {
+
+    const card = state.mainCard;
+    const word = state.userWord;
+
+    /*
+       重要：
+       最初の物語の「続き」ではない。
+       同じカードを別の角度から見る独立した物語。
+    */
+
+    const revisionStories = {
+
+        "月":
+`昼の庭。
+
+夜には見えなかった水たまりが、
+まだ地面に残っている。
+
+そこへ一人の人が来て、
+水面を覗き込む。
+
+月はもうない。
+
+代わりに、
+青い空が映っている。
+
+昨日の夜と同じ場所なのに、
+見えているものが違っていた。`,
+
+        "死神":
+`閉店した店の隣。
+
+朝になって、
+新しい店の準備が始まっている。
+
+古い赤い椅子だけが、
+店先に置かれたままだ。
+
+通りかかった人が、
+そこへ座る。
+
+椅子はもう、
+前の店のものではなかった。`,
+
+        "節制":
+`午後の庭。
+
+二つの鉢に、
+同じ量の水を分ける。
+
+片方だけを育てようとしていた頃は、
+いつも水が足りなかった。
+
+今日は、
+両方が少しずつ濡れている。
+
+急がなくても、
+育つものはある。`
+
+    };
+
+    let story =
+        revisionStories[card.name];
+
+    if (!story) {
+
+        story =
+`別の日。
+
+同じ場所を、
+今度は少し遠くから眺めている。
+
+「${word}」
+
+あの日に置いた言葉を思い出す。
+
+景色そのものは変わっていない。
+
+けれど、
+見える範囲が少し広くなっていた。`;
+
+    }
+
+    state.revisionStory = story;
+
+    $("revision-story-text").textContent =
+        story;
+}
+
+
+/* =========================================================
+   REVISION COMPLETE
+========================================================= */
+
+function completeRevision() {
+
+    changeScene("complete");
+}
+
+
+/* =========================================================
+   SUMMARY
+========================================================= */
+
+function gotoSummary() {
+
+    $("summary-card-name").textContent =
+        `${state.mainCard.en}  /  ${state.mainCard.name}`;
+
+    $("summary-theme").textContent =
+        state.userTheme;
+
+    $("summary-story1").textContent =
+        state.story1 ||
+        state.mainCard.world;
+
+    $("summary-word").textContent =
+        `「${state.userWord}」`;
+
+    $("summary-story2").textContent =
+        state.story2;
+
+    $("summary-revision").textContent =
+        `【リビジョン】
+
+${state.revisionStory}`;
+
+    changeScene("summary");
+}
+
+
+/* =========================================================
+   SMALL ROOM
+========================================================= */
+
+function gotoKoboeya() {
+
+    $("koboeya-action").style.display =
+        "block";
+
+    $("koboeya-result").style.display =
+        "none";
+
+    changeScene("koboeya");
+}
+
+
+/* =========================================================
+   ADVICE DRAW
+========================================================= */
+
+function drawAdviceFuda() {
+
+    state.adviceCard = randomCard();
+
+    $("koboeya-action").style.display =
+        "none";
+
+    $("advice-card-name").textContent =
+        state.adviceCard.name;
+
+    $("advice-number").textContent =
+        state.adviceCard.number;
+
+    $("koboeya-result").style.display =
+        "block";
+
+    generateAdviceText();
+}
+
+
+/* =========================================================
+   ADVICE
+========================================================= */
+
+function generateAdviceText() {
+
+    const main =
+        state.mainCard;
+
+    const advice =
+        state.adviceCard;
+
+    const word =
+        state.userWord;
+
+    /*
+       2枚目を単独占いにしない。
+
+       1枚目で起きたこと
+       +
+       ユーザーの言葉
+       +
+       2枚目の視点
+
+       を接続する。
+    */
+
+    const adviceMap = {
+
+        "節制":
+`① この札から眺める
+
+さっきの物語では、
+「${word}」という言葉によって、
+景色が少し動きました。
+
+この札は、
+全部を一度に変えるのではなく、
+二つのものへ少しずつ手を渡します。
+
+② リビジョン
+
+続ける／やめる。
+進む／戻る。
+
+その間に、
+「少しだけ配分を変える」
+という見方があります。
+
+③ 小さな一歩
+
+明日の予定から、
+ひとつだけ量を変えてみる。
+
+全部を決めなくても、
+一杯分の水は動かせます。`,
+
+        "隠者":
+`① この札から眺める
+
+さっきの物語で見つけたものを、
+すぐに誰かへ渡さなくてもいい。
+
+小さな灯りを持って、
+自分で一度確かめる。
+
+② リビジョン
+
+答えを探すのではなく、
+「自分が何を見ていたのか」
+を少し離れて眺める。
+
+③ 小さな一歩
+
+今日は結論を出さず、
+気になったことを一行だけ書いておく。`,
+
+        "戦車":
+`① この札から眺める
+
+二頭の馬は、
+同じ方向を向いているとは限りません。
+
+それでも手綱は、
+あなたの手にあります。
+
+② リビジョン
+
+迷いをなくしてから進むのではなく、
+進みながら方向を整える。
+
+③ 小さな一歩
+
+今週、
+「ここだけは進める」ということを
+一つだけ決める。`
+
+    };
+
+    let text =
+        adviceMap[advice.name];
+
+    if (!text) {
+
+        text =
+`① この札から眺める
+
+「${word}」という言葉を、
+少し離れた場所から見てみる。
+
+今まで一つに見えていたものにも、
+別の面がある。
+
+② リビジョン
+
+答えを変えるのではなく、
+見ている場所を変えてみる。
+
+③ 小さな一歩
+
+明日、
+ほんの少しだけ違うやり方を試してみる。`;
+
+    }
+
+    state.adviceText = text;
+
+    $("advice-text").innerText =
+        text;
+}
+
+
+/* =========================================================
+   SUMMARY WITH ADVICE
+========================================================= */
+
+function gotoSummaryWithAdvice() {
+
+    gotoSummary();
+
+    /*
+       栞にアドバイスも追加
+    */
+
+    setTimeout(() => {
+
+        const adviceBlock =
+            document.createElement("div");
+
+        adviceBlock.style.marginTop =
+            "18px";
+
+        adviceBlock.style.paddingTop =
+            "18px";
+
+        adviceBlock.style.borderTop =
+            "1px solid rgba(80,70,55,.2)";
+
+        adviceBlock.innerHTML =
+            `<div class="shiori-title">
+                小部屋の一枚
+            </div>
+            <div class="shiori-story">
+                ${escapeHTML(state.adviceCard.name)}
+
+                ${escapeHTML(state.adviceText)}
+            </div>`;
+
+        $("summary-revision")
+            .appendChild(adviceBlock);
+
+    }, 100);
+}
+
+
+/* =========================================================
+   SAFE HTML
+========================================================= */
+
+function escapeHTML(str) {
+
+    return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+/* =========================================================
+   RETURN
+========================================================= */
+
+function returnToDaily() {
+
+    /*
+       リロードではなく、
+       静かに最初へ戻る。
+    */
+
+    state.userTheme = "";
+    state.userWord = "";
+    state.mainCard = null;
+    state.adviceCard = null;
+    state.story1 = "";
+    state.story2 = "";
+    state.revisionStory = "";
+    state.adviceText = "";
+
+    $("user-theme").value = "";
+    $("user-word").value = "";
+
+    changeScene("home");
+}
+
+
+/* =========================================================
+   INITIAL
+========================================================= */
+
+window.addEventListener("load", () => {
+
+    document
+        .querySelectorAll(".scene")
+        .forEach(scene => {
+
+            if (!scene.classList.contains("active")) {
+                scene.classList.remove("active");
+            }
+
+        });
+
+});
+</script>
+
+</body>
+</html>
