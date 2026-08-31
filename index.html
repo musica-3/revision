@@ -2,2134 +2,703 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-
-<meta name="viewport"
-      content="width=device-width,
-               initial-scale=1.0,
-               maximum-scale=1.0,
-               user-scalable=no">
-
-<meta name="theme-color" content="#080b13">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0d1117">
 <title>結の札｜一枚の札から、物語がひらく。</title>
 
 <style>
-
 /* =========================================================
-   結の札
-   FREE / NO API VERSION
+   DESIGN SYSTEM (MODERN EDITORIAL & CLEAN DARK)
    ========================================================= */
+:root {
+    --bg-base: #0d1117;
+    --bg-surface: #141b24;
+    --bg-card: rgba(255, 255, 255, 0.03);
+    --text-main: #f0ede6;
+    --text-sub: #8b949e;
+    --accent: #c5a059;
+    --accent-muted: rgba(197, 160, 89, 0.2);
+    --border: rgba(255, 255, 255, 0.1);
+    --border-accent: rgba(197, 160, 89, 0.35);
 
-:root{
-    --night:#080b13;
-    --night2:#101522;
-    --paper:#e8dfcf;
-    --paper2:#d8ccb7;
-    --gold:#c8a95a;
-    --gold-soft:#9f8750;
-    --white:#eee9df;
-    --muted:#858994;
-    --line:rgba(200,169,90,.35);
-
-    --serif:
-      "Hiragino Mincho ProN",
-      "Yu Mincho",
-      "YuMincho",
-      serif;
-
-    --sans:
-      -apple-system,
-      BlinkMacSystemFont,
-      "Helvetica Neue",
-      Arial,
-      sans-serif;
+    --serif: "Shippori Mincho", "Yu Mincho", "YuMincho", "Hiragino Mincho ProN", serif;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
-html,
-body{
-    width:100%;
-    height:100%;
-    overflow:hidden;
-    overscroll-behavior:none;
-}
-
-body{
-    background:
-      radial-gradient(
-        circle at 50% 40%,
-        #151b2b 0%,
-        var(--night) 65%
-      );
-
-    color:var(--white);
-    font-family:var(--serif);
-
-    -webkit-font-smoothing:antialiased;
-    touch-action:manipulation;
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    overscroll-behavior: none;
+    background-color: var(--bg-base);
+    color: var(--text-main);
+    font-family: var(--serif);
+    -webkit-font-smoothing: antialiased;
 }
 
 /* =========================================================
-   STAGE
+   STAGE & SCENE NAVIGATION
    ========================================================= */
-
-#stage{
-    width:100vw;
-    height:100dvh;
-    position:relative;
-    overflow:hidden;
+#stage {
+    width: 100vw;
+    height: 100dvh;
+    position: relative;
+    overflow: hidden;
+    background: radial-gradient(circle at 50% 30%, #161e2b 0%, var(--bg-base) 70%);
 }
 
-.scene{
-    position:absolute;
-    inset:0;
-
-    width:100vw;
-    height:100dvh;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    padding:
-      max(24px, env(safe-area-inset-top))
-      22px
-      max(24px, env(safe-area-inset-bottom));
-
-    opacity:0;
-    visibility:hidden;
-    pointer-events:none;
-
-    transform:scale(1.015);
-
-    transition:
-      opacity .55s ease,
-      transform .7s ease,
-      visibility .55s;
+.scene {
+    position: absolute;
+    inset: 0;
+    width: 100vw;
+    height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: max(24px, env(safe-area-inset-top)) 24px max(24px, env(safe-area-inset-bottom));
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(10px);
+    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.6s;
 }
 
-.scene.active{
-    opacity:1;
-    visibility:visible;
-    pointer-events:auto;
-    transform:scale(1);
+.scene.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0);
 }
 
-.scene-inner{
-    width:100%;
-    max-width:560px;
-    max-height:100%;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
+.scene-inner {
+    width: 100%;
+    max-width: 540px;
+    max-height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
 
 /* =========================================================
-   ATMOSPHERE
+   ABSTRACT ARTWORK (脱臭・スタイリッシュ化モチーフ)
    ========================================================= */
 
-.scene::before{
-    content:"";
-    position:absolute;
-    inset:0;
-    pointer-events:none;
-
-    background:
-      radial-gradient(
-        circle at 50% 45%,
-        rgba(200,169,90,.06),
-        transparent 55%
-      );
+/* 月の代わりに「幾何学の光環」 */
+.ring-symbol {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 1px solid var(--accent);
+    position: relative;
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 30px rgba(197, 160, 89, 0.12);
 }
 
-.scene.dark{
-    background:#05070c;
+.ring-symbol::before {
+    content: "";
+    width: 60%;
+    height: 60%;
+    border-radius: 50%;
+    border: 1px stroke var(--border-accent);
+    background: radial-gradient(circle, rgba(197, 160, 89, 0.15) 0%, transparent 70%);
 }
 
-.scene.paper{
-    background:
-      radial-gradient(
-        circle at 50% 30%,
-        #1a2130,
-        #080b13 70%
-      );
+/* ドアの代わりに「ミニマル・フレーム」 */
+.frame-symbol {
+    width: 120px;
+    height: 170px;
+    border: 1px solid var(--border-accent);
+    position: relative;
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.moon{
-    width:120px;
-    height:120px;
-    border-radius:50%;
-
-    background:
-      radial-gradient(
-        circle at 35% 30%,
-        #fffdf4,
-        #c9c0a8 60%,
-        #817866
-      );
-
-    box-shadow:
-      0 0 45px rgba(230,220,190,.16);
-
-    margin-bottom:32px;
+.frame-symbol::after {
+    content: "";
+    width: 80%;
+    height: 80%;
+    border: 1px dashed var(--border);
 }
 
-.door{
-    width:150px;
-    height:210px;
-
-    border:1px solid var(--line);
-
-    position:relative;
-    margin-bottom:30px;
-
-    background:
-      linear-gradient(
-        90deg,
-        rgba(0,0,0,.25),
-        rgba(255,255,255,.02),
-        rgba(0,0,0,.25)
-      );
+/* 怪しい店主の影の代わりに「立体幾何学オブジェクト」 */
+.abstract-room {
+    width: min(88vw, 420px);
+    height: 44vh;
+    max-height: 360px;
+    border: 1px solid var(--border);
+    background: rgba(20, 27, 36, 0.4);
+    backdrop-filter: blur(10px);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    border-radius: 4px;
 }
 
-.door::after{
-    content:"";
-    position:absolute;
-    right:18px;
-    top:50%;
-    width:6px;
-    height:6px;
+.cube-object {
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--accent);
+    transform: rotate(45deg);
+    margin-bottom: 24px;
+    position: relative;
+    transition: transform 0.8s ease;
+}
 
-    border:1px solid var(--gold);
-    border-radius:50%;
+.cube-object::after {
+    content: "";
+    position: absolute;
+    inset: 4px;
+    border: 1px solid var(--border-accent);
 }
 
 /* =========================================================
-   TYPOGRAPHY
+   TYPOGRAPHY & ELEMENTS
    ========================================================= */
-
-h1{
-    font-size:clamp(42px,12vw,68px);
-    font-weight:normal;
-    letter-spacing:.16em;
-    color:var(--gold);
-    margin-left:.16em;
+h1 {
+    font-size: clamp(32px, 8vw, 48px);
+    font-weight: 300;
+    letter-spacing: 0.25em;
+    color: var(--text-main);
+    margin-left: 0.25em;
+    margin-bottom: 8px;
 }
 
-h2{
-    font-size:clamp(25px,7vw,34px);
-    font-weight:normal;
-    color:var(--gold);
-    letter-spacing:.12em;
-    margin-bottom:20px;
+h2 {
+    font-size: clamp(20px, 5vw, 26px);
+    font-weight: 400;
+    color: var(--text-main);
+    letter-spacing: 0.15em;
+    margin-bottom: 16px;
 }
 
-.lead{
-    font-size:1.05rem;
-    line-height:2.05;
+.lead {
+    font-size: 0.95rem;
+    line-height: 2.2;
+    color: #d1d5db;
+    font-weight: 300;
 }
 
-.small{
-    font-family:var(--sans);
-    font-size:.72rem;
-    letter-spacing:.16em;
-    color:var(--muted);
+.small {
+    font-family: var(--sans);
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
 }
 
-.card-name{
-    font-family:var(--sans);
-    font-size:.72rem;
-    letter-spacing:.2em;
-    color:var(--gold);
-    margin-bottom:24px;
+.card-name {
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    color: var(--accent);
+    margin-bottom: 20px;
 }
 
-.story{
-    width:100%;
-    max-width:500px;
-
-    font-size:
-      clamp(.92rem, 4vw, 1.05rem);
-
-    line-height:2.0;
-
-    text-align:left;
-
-    white-space:pre-line;
-
-    margin:0 auto 22px;
+.story {
+    width: 100%;
+    font-size: clamp(0.9rem, 3.8vw, 1rem);
+    line-height: 2.1;
+    text-align: left;
+    white-space: pre-line;
+    color: #e2e8f0;
+    font-weight: 300;
 }
 
-.story.center{
-    text-align:center;
-}
-
-.note{
-    color:#aaaeb7;
-    font-size:.78rem;
-    line-height:1.8;
+.note {
+    color: var(--text-sub);
+    font-size: 0.8rem;
+    line-height: 1.8;
+    font-family: var(--sans);
+    font-weight: 300;
 }
 
 /* =========================================================
-   BUTTON
+   BUTTONS & INPUTS
    ========================================================= */
-
-button{
-    appearance:none;
-
-    border:1px solid var(--gold);
-
-    background:transparent;
-
-    color:var(--gold);
-
-    font-family:var(--serif);
-
-    font-size:.95rem;
-
-    min-height:48px;
-
-    padding:10px 27px;
-
-    cursor:pointer;
-
-    margin-top:10px;
-
-    transition:
-      background .25s,
-      color .25s,
-      transform .15s;
+button {
+    appearance: none;
+    border: 1px solid var(--border-accent);
+    background: transparent;
+    color: var(--text-main);
+    font-family: var(--serif);
+    font-size: 0.85rem;
+    letter-spacing: 0.15em;
+    padding: 14px 36px;
+    cursor: pointer;
+    margin-top: 16px;
+    transition: all 0.3s ease;
+    border-radius: 2px;
 }
 
-button:active{
-    transform:scale(.97);
+button:hover {
+    background: var(--accent);
+    color: var(--bg-base);
+    border-color: var(--accent);
 }
 
-button:hover{
-    background:rgba(200,169,90,.09);
+button:active {
+    transform: scale(0.98);
 }
 
-button.primary{
-    background:rgba(200,169,90,.08);
+button.primary {
+    border-color: var(--accent);
+    background: var(--accent-muted);
+    color: var(--accent);
 }
 
-button.ghost{
-    border-color:#555b68;
-    color:#a9adb6;
+button.primary:hover {
+    background: var(--accent);
+    color: var(--bg-base);
+}
+
+button.ghost {
+    border-color: var(--border);
+    color: var(--text-sub);
+}
+
+button.ghost:hover {
+    border-color: var(--text-sub);
+    color: var(--text-main);
+}
+
+input {
+    width: min(84vw, 360px);
+    border: none;
+    border-bottom: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-main);
+    font-family: var(--serif);
+    font-size: 1rem;
+    text-align: center;
+    padding: 12px 0;
+    margin: 20px 0;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+input:focus {
+    border-bottom-color: var(--accent);
+}
+
+input::placeholder {
+    color: var(--text-sub);
+    font-size: 0.85rem;
 }
 
 /* =========================================================
-   INPUT
+   CARD GRID & TABLE
    ========================================================= */
-
-input{
-    width:min(88vw,430px);
-
-    border:none;
-    border-bottom:1px solid #565b67;
-
-    background:transparent;
-
-    color:var(--white);
-
-    font-family:var(--serif);
-    font-size:1.05rem;
-
-    text-align:center;
-
-    padding:12px 6px;
-
-    margin:12px 0 16px;
-
-    outline:none;
+.card-table {
+    width: min(90vw, 380px);
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    margin: 24px auto 12px;
 }
 
-input:focus{
-    border-bottom-color:var(--gold);
+.draw-card {
+    aspect-ratio: 2/3;
+    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.02);
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 2px;
 }
 
-input::placeholder{
-    color:#656a75;
+.draw-card::before {
+    content: "";
+    position: absolute;
+    inset: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.draw-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-4px);
+    background: rgba(197, 160, 89, 0.05);
+}
+
+.draw-card.selected {
+    border-color: var(--accent);
+    background: var(--accent-muted);
+    box-shadow: 0 0 20px rgba(197, 160, 89, 0.2);
+    transform: translateY(-6px);
 }
 
 /* =========================================================
-   CARD DRAW
+   BOOK CONTAINER
    ========================================================= */
-
-.card-table{
-    width:min(90vw,370px);
-
-    display:grid;
-    grid-template-columns:repeat(5,1fr);
-
-    gap:9px;
-
-    margin:18px auto 10px;
+.book {
+    width: min(88vw, 460px);
+    padding: 36px 28px;
+    border: 1px solid var(--border);
+    background: rgba(18, 24, 33, 0.6);
+    backdrop-filter: blur(12px);
+    position: relative;
+    border-radius: 2px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
 }
 
-.draw-card{
-    aspect-ratio:2/3;
-
-    border:1px solid #353a46;
-
-    background:
-      linear-gradient(
-        135deg,
-        #101521,
-        #070a10
-      );
-
-    position:relative;
-
-    cursor:pointer;
-
-    transition:
-      transform .25s,
-      border-color .25s,
-      box-shadow .25s;
-}
-
-.draw-card::before{
-    content:"結";
-
-    position:absolute;
-    inset:0;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    color:#4b5060;
-
-    font-size:1.1rem;
-}
-
-.draw-card:hover{
-    border-color:var(--gold);
-}
-
-.draw-card.selected{
-    border-color:var(--gold);
-
-    box-shadow:
-      0 0 20px rgba(200,169,90,.2);
-
-    transform:
-      translateY(-8px)
-      rotateY(180deg);
+.book::before {
+    content: "YUI NO FUDA";
+    position: absolute;
+    top: 14px;
+    left: 20px;
+    font-family: var(--sans);
+    font-size: 0.55rem;
+    letter-spacing: 0.25em;
+    color: var(--text-sub);
 }
 
 /* =========================================================
-   BOOK
+   RESULT CARDS
    ========================================================= */
-
-.book{
-    width:min(88vw,450px);
-
-    min-height:280px;
-
-    padding:30px 24px;
-
-    border:
-      1px solid
-      rgba(200,169,90,.42);
-
-    background:
-      linear-gradient(
-        145deg,
-        rgba(231,222,205,.055),
-        rgba(10,13,21,.6)
-      );
-
-    box-shadow:
-      0 15px 60px rgba(0,0,0,.35);
-
-    position:relative;
+.keep-card {
+    width: min(88vw, 400px);
+    border: 1px solid var(--border-accent);
+    padding: 32px 24px;
+    background: rgba(20, 27, 36, 0.7);
+    backdrop-filter: blur(8px);
+    text-align: left;
+    border-radius: 2px;
 }
 
-.book::before{
-    content:"YUI NO FUDA";
-
-    position:absolute;
-
-    top:10px;
-    left:14px;
-
-    font-family:var(--sans);
-
-    font-size:.55rem;
-
-    letter-spacing:.2em;
-
-    color:#555b67;
+.keep-card .title {
+    color: var(--accent);
+    font-family: var(--sans);
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    margin-bottom: 20px;
+    text-transform: uppercase;
 }
 
-.book::after{
-    content:"";
-
-    position:absolute;
-
-    bottom:10px;
-    right:14px;
-
-    width:25px;
-    height:1px;
-
-    background:var(--gold-soft);
+.word-display {
+    color: var(--accent);
+    border-bottom: 1px solid var(--accent);
+    padding-bottom: 2px;
 }
-
-.book .story{
-    margin-top:18px;
-}
-
-/* =========================================================
-   WORD
-   ========================================================= */
-
-.word-display{
-    display:inline-block;
-
-    color:var(--gold);
-
-    border-bottom:1px solid var(--gold);
-
-    padding:0 5px 2px;
-
-    margin:0 3px;
-}
-
-/* =========================================================
-   REVISION
-   ========================================================= */
-
-.revision-mark{
-    width:42px;
-    height:42px;
-
-    border:
-      1px solid
-      var(--gold);
-
-    border-radius:50%;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    color:var(--gold);
-
-    margin-bottom:20px;
-
-    font-family:var(--sans);
-}
-
-/* =========================================================
-   ADVICE
-   ========================================================= */
-
-.room{
-    width:min(88vw,430px);
-    height:52vh;
-    max-height:440px;
-
-    border:
-      1px solid
-      rgba(200,169,90,.25);
-
-    background:
-      linear-gradient(
-        to bottom,
-        #0c1019,
-        #05070c
-      );
-
-    position:relative;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    margin-bottom:18px;
-}
-
-.shopkeeper{
-    position:absolute;
-
-    top:28px;
-    left:50%;
-
-    transform:translateX(-50%);
-
-    width:50px;
-    height:90px;
-
-    opacity:.55;
-}
-
-.shopkeeper::before{
-    content:"";
-
-    position:absolute;
-
-    top:0;
-    left:14px;
-
-    width:22px;
-    height:22px;
-
-    border-radius:50%;
-
-    background:#6e6c6a;
-}
-
-.shopkeeper::after{
-    content:"";
-
-    position:absolute;
-
-    top:25px;
-    left:5px;
-
-    width:40px;
-    height:65px;
-
-    background:
-      linear-gradient(
-        90deg,
-        #262a33,
-        #454954,
-        #20242c
-      );
-
-    clip-path:
-      polygon(
-        20% 0,
-        80% 0,
-        100% 100%,
-        0 100%
-      );
-}
-
-.advice-card{
-    width:90px;
-    aspect-ratio:2/3;
-
-    border:
-      1px solid
-      var(--gold);
-
-    background:
-      radial-gradient(
-        circle,
-        #242a38,
-        #090c13
-      );
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    color:var(--gold);
-
-    font-size:1.7rem;
-
-    margin:15px auto;
-}
-
-/* =========================================================
-   TAKE HOME
-   ========================================================= */
-
-.keep-card{
-    width:min(88vw,390px);
-
-    border:
-      1px solid
-      var(--gold);
-
-    padding:28px 22px;
-
-    background:
-      rgba(20,24,34,.7);
-
-    text-align:left;
-}
-
-.keep-card .title{
-    color:var(--gold);
-
-    font-size:.75rem;
-
-    letter-spacing:.15em;
-
-    margin-bottom:16px;
-}
-
-/* =========================================================
-   ANIMATION
-   ========================================================= */
-
-.fade{
-    animation:
-      fadeUp .8s ease both;
-}
-
-@keyframes fadeUp{
-    from{
-        opacity:0;
-        transform:translateY(12px);
-    }
-
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
-}
-
-.page-turn{
-    animation:
-      pageTurn .7s ease both;
-}
-
-@keyframes pageTurn{
-    from{
-        opacity:0;
-        transform:
-          perspective(800px)
-          rotateY(-8deg)
-          scale(.98);
-    }
-
-    to{
-        opacity:1;
-        transform:
-          perspective(800px)
-          rotateY(0)
-          scale(1);
-    }
-}
-
-/* =========================================================
-   SMALL SCREEN
-   ========================================================= */
-
-@media(max-height:650px){
-
-    .scene{
-        padding-top:15px;
-        padding-bottom:15px;
-    }
-
-    .moon{
-        width:75px;
-        height:75px;
-        margin-bottom:18px;
-    }
-
-    .story{
-        line-height:1.75;
-        font-size:.88rem;
-        margin-bottom:12px;
-    }
-
-    .book{
-        min-height:230px;
-        padding:25px 18px;
-    }
-
-    .card-table{
-        gap:5px;
-        width:min(92vw,330px);
-    }
-
-    button{
-        min-height:43px;
-        padding:8px 22px;
-    }
-}
-
 </style>
 </head>
 
 <body>
-
 <div id="stage">
 
-<!-- ======================================================
-     HOME
-     ====================================================== -->
-
+<!-- HOME -->
 <section id="home" class="scene active">
-
-    <div class="scene-inner fade">
-
-        <div class="moon"></div>
-
+    <div class="scene-inner">
+        <div class="ring-symbol"></div>
+        <p class="small">Interactive Narrative</p>
         <h1>結の札</h1>
-
-        <p class="small" style="margin-top:16px;">
-            一枚の札から、物語がひらく。
-        </p>
-
-        <div style="height:34px;"></div>
-
+        <div style="height: 20px;"></div>
         <p class="lead">
             ここでは、答えを当てません。<br>
-            ひとつのことを、<br>
+            ひとつの出来事を、<br>
             少し違う場所から眺めてみます。
         </p>
-
-        <button
-          class="primary"
-          onclick="go('entrance')">
-          物語をはじめる
-        </button>
-
+        <button class="primary" onclick="go('entrance')">物語をはじめる</button>
     </div>
-
 </section>
 
-
-<!-- ======================================================
-     ENTRANCE
-     ====================================================== -->
-
-<section id="entrance" class="scene dark">
-
-    <div class="scene-inner fade">
-
-        <div class="door"></div>
-
-        <p class="small">YUI NO FUDA</p>
-
-        <p class="lead" style="margin-top:15px;">
-            小さな扉の向こうに、<br>
-            22枚の札が待っています。
+<!-- ENTRANCE -->
+<section id="entrance" class="scene">
+    <div class="scene-inner">
+        <div class="frame-symbol"></div>
+        <p class="small">22 ARCHETYPES</p>
+        <p class="lead" style="margin-top: 16px;">
+            静寂のなかに、<br>
+            22の場面が待っています。
         </p>
-
-        <button onclick="go('theme')">
-            扉をひらく
-        </button>
-
+        <button onclick="go('theme')">扉をひらく</button>
     </div>
-
 </section>
 
-
-<!-- ======================================================
-     THEME
-     ====================================================== -->
-
+<!-- THEME -->
 <section id="theme" class="scene">
-
-    <div class="scene-inner fade">
-
-        <p class="small">まず、ひとつだけ。</p>
-
-        <h2 style="margin-top:15px;">
-            今日は、何を眺めますか？
-        </h2>
-
-        <p class="note">
-            答えを出すためではなく、<br>
-            物語に置いておくための問いです。
-        </p>
-
-        <input
-          id="themeInput"
-          type="text"
-          maxlength="60"
-          placeholder="例：まだ諦めたくないこと">
-
-        <button
-          class="primary"
-          onclick="submitTheme()">
-          この問いを置く
-        </button>
-
+    <div class="scene-inner">
+        <p class="small">QUESTION</p>
+        <h2 style="margin-top: 12px;">今日は、何を眺めますか？</h2>
+        <p class="note">答えを出すためではなく、<br>物語に置いておくための問いです。</p>
+        <input id="themeInput" type="text" maxlength="60" placeholder="例：まだ諦めたくないこと">
+        <button class="primary" onclick="submitTheme()">この問いを置く</button>
     </div>
-
 </section>
 
-
-<!-- ======================================================
-     DRAW
-     ====================================================== -->
-
+<!-- DRAW -->
 <section id="draw" class="scene">
-
-    <div class="scene-inner fade">
-
-        <p class="small">
-            22枚の札
-        </p>
-
-        <h2 style="margin-top:12px;">
-            一枚、引く
-        </h2>
-
-        <p class="note">
-            どの札が来るかは、選びません。
-        </p>
-
-        <div
-          id="cardTable"
-          class="card-table">
-        </div>
-
+    <div class="scene-inner">
+        <p class="small">SELECTION</p>
+        <h2 style="margin-top: 10px;">一枚、引く</h2>
+        <p class="note">どの場面が現れるかは、選びません。</p>
+        <div id="cardTable" class="card-table"></div>
     </div>
-
 </section>
 
-
-<!-- ======================================================
-     CARD WORLD
-     ====================================================== -->
-
+<!-- CARD WORLD -->
 <section id="world" class="scene">
-
-    <div class="scene-inner page-turn">
-
-        <div
-          id="mainCardName"
-          class="card-name">
-        </div>
-
+    <div class="scene-inner">
+        <div id="mainCardName" class="card-name"></div>
         <div class="book">
-
-            <div
-              id="worldStory"
-              class="story">
-            </div>
-
+            <div id="worldStory" class="story"></div>
         </div>
-
-        <p class="note" style="margin-top:14px;">
-            この世界で、目に留まったものをひとつ。
-        </p>
-
-        <button onclick="go('input')">
-            言葉を置く
-        </button>
-
+        <p class="note" style="margin-top: 16px;">この世界で、目に留まったものをひとつ。</p>
+        <button onclick="go('input')">言葉を置く</button>
     </div>
-
 </section>
 
-
-<!-- ======================================================
-     INPUT
-     ====================================================== -->
-
+<!-- INPUT -->
 <section id="input" class="scene">
-
-    <div class="scene-inner fade">
-
-        <div class="card-name">
-            この世界で
-        </div>
-
-        <p class="lead">
-            何かひとつ、<br>
-            持って帰るなら？
-        </p>
-
-        <input
-          id="wordInput"
-          type="text"
-          maxlength="30"
-          placeholder="一言で大丈夫です">
-
-        <button
-          class="primary"
-          onclick="submitWord()">
-          その言葉を置く
-        </button>
-
-        <p class="note" style="margin-top:18px;">
-            正しい答えはありません。
-        </p>
-
+    <div class="scene-inner">
+        <div class="card-name">IMPRESSION</div>
+        <p class="lead">何かひとつ、<br>持って帰るなら？</p>
+        <input id="wordInput" type="text" maxlength="30" placeholder="一言で大丈夫です">
+        <button class="primary" onclick="submitWord()">その言葉を置く</button>
+        <p class="note" style="margin-top: 16px;">正解はありません。</p>
     </div>
-
 </section>
 
-
-<!-- ======================================================
-     TRANSFORMED STORY
-     ====================================================== -->
-
+<!-- TRANSFORMED STORY -->
 <section id="transformed" class="scene">
-
-    <div class="scene-inner page-turn">
-
-        <div class="card-name">
-            <span id="transformedCardName"></span>
-        </div>
-
+    <div class="scene-inner">
+        <div class="card-name"><span id="transformedCardName"></span></div>
         <div class="book">
-
-            <div
-              id="transformedStory"
-              class="story">
-            </div>
-
+            <div id="transformedStory" class="story"></div>
         </div>
-
-        <p class="note">
-            あなたの言葉で、少しだけ世界が変わりました。
-        </p>
-
-        <button onclick="go('closebook')">
-            本を閉じる
-        </button>
-
+        <p class="note" style="margin-top: 14px;">あなたの言葉で、少しだけ光が変わりました。</p>
+        <button onclick="go('closebook')">本を閉じる</button>
     </div>
-
 </section>
 
-
-<!-- ======================================================
-     CLOSE BOOK
-     ====================================================== -->
-
-<section id="closebook" class="scene dark">
-
-    <div class="scene-inner fade">
-
-        <div
-          style="
-            font-size:3rem;
-            color:var(--gold);
-            margin-bottom:25px;
-          ">
-            ✦
-        </div>
-
-        <p class="lead">
-            本を閉じると、<br>
-            さっきまでの世界が<br>
-            静かに遠ざかります。
-        </p>
-
-        <button onclick="go('revisionIntro')">
-            もう一度、眺める
-        </button>
-
+<!-- CLOSE BOOK -->
+<section id="closebook" class="scene">
+    <div class="scene-inner">
+        <div class="ring-symbol" style="width: 45px; height: 45px; margin-bottom: 24px;"></div>
+        <p class="lead">本を閉じると、<br>さっきまでの世界が<br>静かに遠ざかります。</p>
+        <button onclick="go('revisionIntro')">もう一度、眺める</button>
     </div>
-
 </section>
 
-
-<!-- ======================================================
-     REVISION INTRO
-     ====================================================== -->
-
+<!-- REVISION INTRO -->
 <section id="revisionIntro" class="scene">
-
-    <div class="scene-inner fade">
-
-        <div class="revision-mark">
-            ↻
-        </div>
-
-        <p class="small">
-            REVISION
-        </p>
-
-        <h2 style="margin-top:12px;">
-            同じ札を、もう一度。
-        </h2>
-
-        <p class="lead">
-            今度は、少し違う場所から。<br>
-            同じ世界を眺めてみます。
-        </p>
-
-        <button onclick="startRevision()">
-            リビジョン
-        </button>
-
+    <div class="scene-inner">
+        <p class="small">PERSPECTIVE</p>
+        <h2 style="margin-top: 12px;">同じ風景を、もう一度。</h2>
+        <p class="lead">今度は、少し違う角度から。<br>同じ世界を眺めてみます。</p>
+        <button class="primary" onclick="startRevision()">視点を変える</button>
     </div>
-
 </section>
 
-
-<!-- ======================================================
-     REVISION STORY
-     ====================================================== -->
-
+<!-- REVISION STORY -->
 <section id="revisionStory" class="scene">
-
-    <div class="scene-inner page-turn">
-
-        <div class="card-name">
-            同じ札、別の場所
-        </div>
-
+    <div class="scene-inner">
+        <div class="card-name">REVISION</div>
         <div class="book">
-
-            <div
-              id="revisionText"
-              class="story">
-            </div>
-
+            <div id="revisionText" class="story"></div>
         </div>
-
-        <button onclick="go('complete')">
-            本を閉じる
-        </button>
-
+        <button onclick="go('complete')">物語を閉じる</button>
     </div>
-
 </section>
 
-
-<!-- ======================================================
-     COMPLETE
-     ====================================================== -->
-
+<!-- COMPLETE -->
 <section id="complete" class="scene">
-
-    <div class="scene-inner fade">
-
-        <div
-          style="
-            color:var(--gold);
-            font-size:2rem;
-            margin-bottom:22px;
-          ">
-            ✦
-        </div>
-
-        <h2>
-            物語は、ここまで。
-        </h2>
-
-        <p class="lead">
-            あなたが置いた言葉も、<br>
-            少しだけ、この物語に残っています。
-        </p>
-
-        <div style="height:12px;"></div>
-
-        <button
-          class="primary"
-          onclick="go('revisionEnd')">
-          持ち帰る
-        </button>
-
-        <button
-          class="ghost"
-          onclick="go('adviceRoom')">
-          小部屋へ行く
-        </button>
-
+    <div class="scene-inner">
+        <h2 style="margin-bottom: 12px;">物語は、ここまで。</h2>
+        <p class="lead">あなたが置いた言葉も、<br>静かにこの場所に留まります。</p>
+        <div style="height: 20px;"></div>
+        <button class="primary" onclick="go('revisionEnd')">持ち帰る</button>
+        <button class="ghost" onclick="go('adviceRoom')">対話の部屋へ</button>
     </div>
-
 </section>
 
-
-<!-- ======================================================
-     REVISION END / TAKE HOME
-     ====================================================== -->
-
+<!-- REVISION END / TAKE HOME -->
 <section id="revisionEnd" class="scene">
-
-    <div class="scene-inner fade">
-
+    <div class="scene-inner">
         <div class="keep-card">
-
-            <div class="title">
-                今日の札
-            </div>
-
-            <p class="small">
-                <span id="keepCard"></span>
-            </p>
-
-            <p
-              style="
-                margin-top:16px;
-                line-height:1.9;
-              ">
-                「<span
-                    id="keepTheme"
-                    style="color:var(--gold);">
-                </span>」
-            </p>
-
-            <hr
-              style="
-                border:0;
-                border-top:1px solid #303541;
-                margin:18px 0;
-              ">
-
-            <p
-              style="
-                font-size:.9rem;
-                line-height:1.9;
-              ">
-                <span
-                  id="keepWord"
-                  class="word-display">
-                </span>
-            </p>
-
+            <div class="title">RECORD</div>
+            <p class="small" style="color: var(--text-main);"><span id="keepCard"></span></p>
+            <p style="margin-top: 16px; line-height: 1.8;">「<span id="keepTheme" style="color: var(--accent);"></span>」</p>
+            <hr style="border:0; border-top:1px solid var(--border); margin: 18px 0;">
+            <p style="font-size: 0.95rem;"><span id="keepWord" class="word-display"></span></p>
         </div>
-
-        <p class="note" style="margin-top:18px;">
-            今日の物語を、日常へ。
-        </p>
-
-        <button onclick="location.reload()">
-            日常へ帰る
-        </button>
-
+        <p class="note" style="margin-top: 20px;">今日の視点を、日常へ。</p>
+        <button onclick="location.reload()">日常へ帰る</button>
     </div>
-
 </section>
 
-
-<!-- ======================================================
-     ADVICE ROOM
-     ====================================================== -->
-
-<section id="adviceRoom" class="scene dark">
-
-    <div class="scene-inner fade">
-
-        <p class="small">
-            小さな小部屋
-        </p>
-
-        <div class="room">
-
-            <div class="shopkeeper"></div>
-
-            <div
-              id="adviceBefore"
-              style="padding-top:80px;">
-
-                <p class="lead">
-                    店主は何も言わず、<br>
-                    裏向きの札を一枚、<br>
-                    差し出した。
-                </p>
-
-                <button
-                  class="primary"
-                  onclick="drawAdvice()">
-                    引く
-                </button>
-
+<!-- ADVICE ROOM -->
+<section id="adviceRoom" class="scene">
+    <div class="scene-inner">
+        <p class="small">DIALOGUE</p>
+        <div class="abstract-room">
+            <div class="cube-object"></div>
+            <div id="adviceBefore">
+                <p class="lead" style="font-size: 0.9rem;">静寂のなかに、<br>もう一枚の問いが置かれている。</p>
+                <button class="primary" onclick="drawAdvice()">引き寄せる</button>
             </div>
-
-            <div
-              id="adviceAfter"
-              style="
-                display:none;
-                width:100%;
-                padding:15px;
-              ">
-
-                <div
-                  id="adviceCardVisual"
-                  class="advice-card">
-                    結
-                </div>
-
-                <div
-                  id="adviceCardName"
-                  class="card-name">
-                </div>
-
+            <div id="adviceAfter" style="display:none; width:100%; padding:15px;">
+                <div id="adviceCardName" class="card-name" style="margin-bottom:0;"></div>
             </div>
-
         </div>
-
     </div>
-
 </section>
 
-
-<!-- ======================================================
-     ADVICE RESULT
-     ====================================================== -->
-
+<!-- ADVICE RESULT -->
 <section id="adviceResult" class="scene">
-
-    <div class="scene-inner fade">
-
-        <p class="small">
-            2枚目
-        </p>
-
-        <h2>
-            その世界を見た、あなた
-        </h2>
-
+    <div class="scene-inner">
+        <p class="small">SECOND PERSPECTIVE</p>
+        <h2>視点を深める</h2>
         <div class="book">
-
-            <div
-              id="adviceText"
-              class="story">
-            </div>
-
+            <div id="adviceText" class="story"></div>
         </div>
-
-        <button onclick="go('takehome')">
-            この一手を持ち帰る
-        </button>
-
+        <button onclick="go('takehome')">この一手を持ち帰る</button>
     </div>
-
 </section>
 
-
-<!-- ======================================================
-     TAKE HOME
-     ====================================================== -->
-
+<!-- TAKE HOME FINAL -->
 <section id="takehome" class="scene">
-
-    <div class="scene-inner fade">
-
+    <div class="scene-inner">
         <div class="keep-card">
-
-            <div class="title">
-                結の札
-            </div>
-
-            <p
-              style="
-                font-size:1.05rem;
-                line-height:2;
-              ">
-                <span id="finalCard"></span>
-            </p>
-
-            <p
-              style="
-                margin-top:16px;
-                font-size:.88rem;
-                line-height:1.9;
-                color:#b9bbc1;
-              ">
-                <span id="finalAdvice"></span>
-            </p>
-
+            <div class="title">ESSENCE</div>
+            <p style="font-size: 1.05rem; line-height: 2;"><span id="finalCard"></span></p>
+            <p style="margin-top: 16px; font-size: 0.9rem; line-height: 1.8; color: var(--text-sub);"><span id="finalAdvice"></span></p>
         </div>
-
-        <p class="note" style="margin-top:18px;">
-            答えではなく、ひとつの見方を。
-        </p>
-
-        <button onclick="location.reload()">
-            日常へ帰る
-        </button>
-
+        <p class="note" style="margin-top: 20px;">答えではなく、新しい見方を。</p>
+        <button onclick="location.reload()">日常へ帰る</button>
     </div>
-
 </section>
 
 </div>
 
-
 <script>
-
 /* =========================================================
-   結の札
-   FREE / NO API
+   STATE & DATA STRUCTURE
    ========================================================= */
-
-
-/* =========================================================
-   STATE
-   ========================================================= */
-
 const state = {
-
-    theme:"",
-    word:"",
-
-    mainCard:null,
-    adviceCard:null,
-
-    revision:""
-
+    theme: "",
+    word: "",
+    mainCard: null,
+    adviceCard: null
 };
 
-
-/* =========================================================
-   22 MAJOR ARCANA
-   逆位置なし
-   ========================================================= */
-
 const cards = [
-
-{
-    id:0,
-    name:"愚者",
-    en:"THE FOOL",
-    world:
-`旅人が、町を出る。
-行き先は決まっていない。
-
-背中には小さな荷物。
-足元では犬が一度だけ吠える。
-
-振り返れば、昨日までの道。
-前を見れば、まだ名前のない道。
-
-旅人は、一歩だけ進んだ。`
-},
-
-{
-    id:1,
-    name:"魔術師",
-    en:"THE MAGICIAN",
-    world:
-`古い机の上に、
-小さな道具がいくつも並んでいる。
-
-誰かが、ひとつずつ手に取る。
-まだ何になるのかは決まっていない。
-
-窓から朝の光が差し込む。
-
-机の上には、
-使われていない一枚の紙が残っていた。`
-},
-
-{
-    id:2,
-    name:"女教皇",
-    en:"THE HIGH PRIESTESS",
-    world:
-`静かな図書室。
-誰もいないのに、一冊だけ開いている。
-
-ページには文字がない。
-
-窓の外で雨が降り始める。
-
-本の横には、
-まだ誰も触れていない鍵が置かれている。
-
-鍵穴は、どこにも見当たらない。`
-},
-
-{
-    id:3,
-    name:"女帝",
-    en:"THE EMPRESS",
-    world:
-`庭に、季節外れの花が咲いている。
-
-誰かが水をやっている。
-名前は知らない花だった。
-
-その隣には、
-まだ芽を出していない鉢がある。
-
-庭の奥で、
-鳥が一度だけ鳴いた。`
-},
-
-{
-    id:4,
-    name:"皇帝",
-    en:"THE EMPEROR",
-    world:
-`石造りの部屋に、
-大きな机が置かれている。
-
-机の上には地図。
-線はまっすぐ引かれている。
-
-けれど窓の外では、
-予定になかった雨が降っている。
-
-地図の端が、
-少しだけ濡れていた。`
-},
-
-{
-    id:5,
-    name:"法王",
-    en:"THE HIEROPHANT",
-    world:
-`古い建物の中で、
-誰かが昔から続く手順を繰り返している。
-
-同じ時間。
-同じ場所。
-同じ音。
-
-今日は一人の子どもが、
-その手順を少しだけ違う順番で行った。
-
-誰も止めなかった。`
-},
-
-{
-    id:6,
-    name:"恋人",
-    en:"THE LOVERS",
-    world:
-`分かれ道の前に、
-二人の人が立っている。
-
-右の道には明るい街。
-左の道には静かな森。
-
-二人は同じ方向を見ていない。
-
-それでも、
-まだどちらも歩き出してはいなかった。`
-},
-
-{
-    id:7,
-    name:"戦車",
-    en:"THE CHARIOT",
-    world:
-`朝、二頭の馬が門の前にいる。
-
-それぞれ違う方向を向いている。
-
-御者は手綱を握ったまま、
-まだ動かない。
-
-遠くで鐘が鳴る。
-
-やがて二頭の足が、
-同じ方向へ向いた。`
-},
-
-{
-    id:8,
-    name:"正義",
-    en:"JUSTICE",
-    world:
-`机の上に、二つの箱がある。
-
-重さはほとんど同じ。
-中身だけが違う。
-
-窓から光が差し、
-机の中央を横切る。
-
-誰かが一度だけ、
-両方の箱を持ち上げた。
-
-それから、静かに置き直した。`
-},
-
-{
-    id:9,
-    name:"隠者",
-    en:"THE HERMIT",
-    world:
-`夜の道を、
-一人の老人が歩いている。
-
-手には小さな灯り。
-
-遠くに町の明かりが見える。
-
-老人は急がない。
-
-灯りの届く範囲だけを、
-確かめるように歩いていく。`
-},
-
-{
-    id:10,
-    name:"運命の輪",
-    en:"WHEEL OF FORTUNE",
-    world:
-`古い時計塔が鳴った。
-
-止まっていた大きな歯車が、
-ゆっくり動き始める。
-
-誰かが動かしたわけではない。
-
-一周すると、
-昨日と同じ景色が見えた。
-
-けれど、そこに立つ人だけが違っていた。`
-},
-
-{
-    id:11,
-    name:"力",
-    en:"STRENGTH",
-    world:
-`森の中に、
-大きな獣が座っている。
-
-その前に一人の人が立つ。
-
-手には何も持っていない。
-
-獣はしばらくその人を見る。
-
-やがて、
-ゆっくりと頭を下げた。`
-},
-
-{
-    id:12,
-    name:"吊られた男",
-    en:"THE HANGED MAN",
-    world:
-`森の中で、
-時間だけが止まっている。
-
-一人の旅人が逆さまに吊られている。
-
-足元には道がある。
-
-けれど旅人は歩かない。
-
-逆さになった景色の中で、
-今まで見えなかったものが見えていた。`
-},
-
-{
-    id:13,
-    name:"死神",
-    en:"DEATH",
-    world:
-`夕暮れの店で、
-棚がひとつずつ空になっていく。
-
-古い看板が外される。
-
-最後まで残ったのは、
-赤い椅子だった。
-
-店主は椅子を見つめる。
-
-外では、もう夜が始まっていた。`
-},
-
-{
-    id:14,
-    name:"節制",
-    en:"TEMPERANCE",
-    world:
-`静かな泉で、
-二つの器から水を移している。
-
-片方から片方へ。
-少しずつ。
-
-水はこぼれない。
-
-朝と夜の境目のような光の中で、
-二つの水は、
-いつの間にか同じ色になっていた。`
-},
-
-{
-    id:15,
-    name:"悪魔",
-    en:"THE DEVIL",
-    world:
-`地下室に、
-金色の鎖が一本ある。
-
-鎖は扉につながっている。
-
-けれど扉は、
-鍵が掛かっていない。
-
-誰かが鎖を見つめている。
-
-その手は、
-まだ取っ手に触れていなかった。`
-},
-
-{
-    id:16,
-    name:"塔",
-    en:"THE TOWER",
-    world:
-`夜の塔に、
-突然、雷が落ちる。
-
-窓がひとつ割れる。
-
-積み上げられていたものが、
-音を立てて崩れていく。
-
-外へ出ると、
-空が思ったより広い。
-
-瓦礫の向こうから、
-朝の光が見えていた。`
-},
-
-{
-    id:17,
-    name:"星",
-    en:"THE STAR",
-    world:
-`夜明け前の水辺。
-
-一人の人が、
-静かに水を汲んでいる。
-
-空にはまだ星が残っている。
-
-遠くの水面に、
-小さな光がひとつ映る。
-
-手元の水にも、
-同じ光が揺れていた。`
-},
-
-{
-    id:18,
-    name:"月",
-    en:"THE MOON",
-    world:
-`夜の道が、
-森の中へ続いている。
-
-遠くに小さな灯り。
-
-近づくほど、
-その形は分からなくなる。
-
-水面には月が映っている。
-
-けれど、
-空の月と水の月は少し違っていた。`
-},
-
-{
-    id:19,
-    name:"太陽",
-    en:"THE SUN",
-    world:
-`朝。
-
-閉まっていた窓が開く。
-
-庭いっぱいに光が入る。
-
-昨日まで気づかなかった
-小さな傷まで見える。
-
-それでも、
-誰かが笑っている。
-
-今日は、隠れる場所がない。`
-},
-
-{
-    id:20,
-    name:"審判",
-    en:"JUDGEMENT",
-    world:
-`まだ眠っている町に、
-遠くから鐘の音が響く。
-
-閉じていた窓が、
-ひとつ、またひとつ開く。
-
-誰かが外へ出る。
-
-昨日と同じ道なのに、
-今日は足音が違っている。
-
-町が、ゆっくり目を覚ます。`
-},
-
-{
-    id:21,
-    name:"世界",
-    en:"THE WORLD",
-    world:
-`長い旅の終わり。
-
-旅人は、
-最初に出た場所へ戻ってきた。
-
-町は何も変わっていない。
-
-けれど、
-見える景色だけが違っている。
-
-旅人は荷物を下ろし、
-静かに空を見上げた。`
-}
-
+    { id:0, name:"愚者", en:"THE FOOL", world:`旅人が、町を出る。\n行き先は決まっていない。\n\n背中には小さな荷物。\n足元では風が一度だけ吹き抜ける。\n\n振り返れば、昨日までの道。\n前を見れば、まだ名前のない道。\n\n旅人は、一歩だけ進んだ。` },
+    { id:1, name:"魔術師", en:"THE MAGICIAN", world:`古い机の上に、\n小さな道具がいくつも並んでいる。\n\n誰かが、ひとつずつ手に取る。\nまだ何になるのかは決まっていない。\n\n窓から朝の光が差し込む。\n\n机の上には、\n使われていない一枚の紙が残っていた。` },
+    { id:2, name:"女教皇", en:"THE HIGH PRIESTESS", world:`静かな図書室。\n誰もいないのに、一冊だけ開いている。\n\nページには文字がない。\n\n窓の外で静かに雨が降り始める。\n\n本の横には、\nまだ誰も触れていない鍵が置かれている。` },
+    { id:3, name:"女帝", en:"THE EMPRESS", world:`庭に、季節外れの花が咲いている。\n\n誰かが水をやっている。\n名前は知らない花だった。\n\nその隣には、\nまだ芽を出していない鉢がある。` },
+    { id:4, name:"皇帝", en:"THE EMPEROR", world:`石造りの部屋に、\n大きな机が置かれている。\n\n机の上には地図。\n線はまっすぐ引かれている。\n\nけれど窓の外では、\n予定になかった雨が降っている。` },
+    { id:5, name:"法王", en:"THE HIEROPHANT", world:`古い建物の中で、\n誰かが昔から続く手順を繰り返している。\n\n同じ時間。同じ場所。同じ音。\n\n今日は一人の人が、\nその手順を少しだけ違う順番で行った。` },
+    { id:6, name:"恋人", en:"THE LOVERS", world:`分かれ道の前に、\n二人の人が立っている。\n\n右の道には明るい街。\n左の道には静かな森。\n\n二人は同じ方向を見ていない。\nけれど、まだ歩き出してはいなかった。` },
+    { id:7, name:"戦車", en:"THE CHARIOT", world:`朝、二頭の馬が門の前にいる。\nそれぞれ違う方向を向いている。\n\n御者は手綱を握ったまま、まだ動かない。\n遠くで静かに鐘が鳴る。` },
+    { id:8, name:"正義", en:"JUSTICE", world:`机の上に、二つの箱がある。\n重さはほとんど同じ。中身だけが違う。\n\n窓から光が差し、机の中央を横切る。\n誰かが一度だけ、両方の箱を持ち上げた。` },
+    { id:9, name:"隠者", en:"THE HERMIT", world:`夜の道を、一人の人が歩いている。\n手には小さな灯り。\n\n遠くに町の明かりが見えるが、人は急がない。\n灯りの届く範囲だけを確かめるように進む。` },
+    { id:10, name:"運命の輪", en:"WHEEL OF FORTUNE", world:`古い塔の時計が鳴った。\n止まっていた大きな歯車が、ゆっくり動き始める。\n\n誰かが動かしたわけではない。\n一周すると、昨日と同じ景色が見えた。` },
+    { id:11, name:"力", en:"STRENGTH", world:`静けさの中で、大きな存在に向かい合う。\n手には何も持っていない。\n\nしばらく視線が交差する。\nやがて、静かな納得が空間を満たした。` },
+    { id:12, name:"吊られた男", en:"THE HANGED MAN", world:`時間だけが静止している。\n視点を180度変えて景色を眺める。\n\n今まで見えなかった光の反射が、\nそこには存在していた。` },
+    { id:13, name:"死神", en:"DEATH", world:`部屋の棚がひとつずつ空になっていく。\n役目を終えたものが静かに片付けられる。\n\n残された空白に、新しい風が吹き込んでいた。` },
+    { id:14, name:"節制", en:"TEMPERANCE", world:`ふたつの器から水を交互に移し替える。\n静かに、均等に。\n\n異なるふたつのものが、\nゆっくりとひとつに馴染んでいく。` },
+    { id:15, name:"悪魔", en:"THE DEVIL", world:`扉の前で、足を止めている。\n鍵は掛かっていない。\n\nただ、自ら手を伸ばすかどうか。\n選択権は最初から手にあった。` },
+    { id:16, name:"塔", en:"THE TOWER", world:`強風が吹き抜け、古い構造の一部が崩れる。\n驚きと共に空を見上げると、\n思ったよりもそこは広々としていた。` },
+    { id:17, name:"星", en:"THE STAR", world:`夜明け前の静かな水辺。\n水面に小さな光がひとつ映る。\n\n手を差し出すと、冷たい水が指を抜けていった。` },
+    { id:18, name:"月", en:"THE MOON", world:`霧の向こうに薄っすらとした輪郭が見える。\n近づくと形を変える光影。\n\n曖昧なまま、歩みを進めてみる。` },
+    { id:19, name:"太陽", en:"THE SUN", world:`窓いっぱいに朝の光が差し込む。\n隠されていた傷跡も露わになるが、\nそれすらも暖かく照らされていた。` },
+    { id:20, name:"審判", en:"JUDGEMENT", world:`遠くから響く澄んだ音。\n過去の出来事が、全く新しい意味を持って\n静かに胸の内に蘇る。` },
+    { id:21, name:"世界", en:"THE WORLD", world:`ひとつの周期が完了する。\n最初の場所に戻ってきたが、\n見える景色の深度が、以前とは違っていた。` }
 ];
 
-
-/* =========================================================
-   画面遷移
-   ========================================================= */
-
-function go(id){
-
-    document
-      .querySelectorAll(".scene")
-      .forEach(scene=>{
-          scene.classList.remove("active");
-      });
-
-    const target =
-      document.getElementById(id);
-
-    if(!target) return;
-
-    target.classList.add("active");
-
+/* NAVIGATION */
+function go(id) {
+    document.querySelectorAll(".scene").forEach(s => s.classList.remove("active"));
+    const target = document.getElementById(id);
+    if (target) target.classList.add("active");
 }
 
-
-/* =========================================================
-   テーマ
-   ========================================================= */
-
-function submitTheme(){
-
-    const value =
-      document
-        .getElementById("themeInput")
-        .value
-        .trim();
-
-    if(!value){
-        document
-          .getElementById("themeInput")
-          .focus();
-
-        return;
-    }
-
-    state.theme=value;
-
+/* LOGIC */
+function submitTheme() {
+    const val = document.getElementById("themeInput").value.trim();
+    if (!val) { document.getElementById("themeInput").focus(); return; }
+    state.theme = val;
     createDrawCards();
-
     go("draw");
 }
 
-
-/* =========================================================
-   ランダム1枚
-   ========================================================= */
-
-function chooseRandomCard(){
-
-    return cards[
-      Math.floor(
-        Math.random()*cards.length
-      )
-    ];
-
-}
-
-
-/* =========================================================
-   22枚表示
-   ========================================================= */
-
-function createDrawCards(){
-
-    const table =
-      document.getElementById("cardTable");
-
-    table.innerHTML="";
-
-    const shuffled =
-      [...cards].sort(
-        ()=>Math.random()-.5
-      );
-
-    shuffled.forEach(card=>{
-
-        const el =
-          document.createElement("div");
-
-        el.className="draw-card";
-
-        el.onclick=()=>{
-
-            if(state.mainCard) return;
-
+function createDrawCards() {
+    const table = document.getElementById("cardTable");
+    table.innerHTML = "";
+    const shuffled = [...cards].sort(() => Math.random() - 0.5);
+    shuffled.forEach(card => {
+        const el = document.createElement("div");
+        el.className = "draw-card";
+        el.onclick = () => {
+            if (state.mainCard) return;
             el.classList.add("selected");
-
-            state.mainCard=card;
-
-            setTimeout(
-              openMainCard,
-              550
-            );
-
+            state.mainCard = card;
+            setTimeout(openMainCard, 500);
         };
-
         table.appendChild(el);
-
     });
-
 }
 
-
-/* =========================================================
-   1枚目
-   ========================================================= */
-
-function openMainCard(){
-
-    const card=state.mainCard;
-
-    document
-      .getElementById("mainCardName")
-      .textContent=
-        `${card.en}　${card.name}`;
-
-    document
-      .getElementById("worldStory")
-      .textContent=
-        card.world;
-
+function openMainCard() {
+    const card = state.mainCard;
+    document.getElementById("mainCardName").textContent = `${card.en} — ${card.name}`;
+    document.getElementById("worldStory").textContent = card.world;
     go("world");
-
 }
 
-
-/* =========================================================
-   ユーザーの言葉
-   ========================================================= */
-
-function submitWord(){
-
-    const value =
-      document
-        .getElementById("wordInput")
-        .value
-        .trim();
-
-    if(!value){
-
-        document
-          .getElementById("wordInput")
-          .focus();
-
-        return;
-
-    }
-
-    state.word=value;
-
-    document
-      .getElementById("transformedCardName")
-      .textContent=
-        `${state.mainCard.en}　${state.mainCard.name}`;
-
-    document
-      .getElementById("transformedStory")
-      .textContent=
-        makeTransformation(
-          state.mainCard,
-          state.word
-        );
-
+function submitWord() {
+    const val = document.getElementById("wordInput").value.trim();
+    if (!val) { document.getElementById("wordInput").focus(); return; }
+    state.word = val;
+    document.getElementById("transformedCardName").textContent = `${state.mainCard.en} — ${state.mainCard.name}`;
+    document.getElementById("transformedStory").textContent = makeTransformation(state.mainCard, state.word);
     go("transformed");
-
 }
 
+function makeTransformation(card, word) {
+    return `${card.world}\n\nそこへ、あなたが「${word}」を置いた。\n光の当たり方が微かに変わり、物語は新しい静寂を纏い始める。`;
+}
 
-/* =========================================================
-   物語の変容
-   ========================================================= */
+function startRevision() {
+    document.getElementById("revisionText").textContent = 
+        `【${state.mainCard.name}】の風景を、もう一度視点を変えて眺める。\n\n「${state.theme}」という問いと「${state.word}」という言葉。\nふたつの要素が重なる場所から、新しい解釈が生まれます。`;
+    document.getElementById("keepCard").textContent = `${state.mainCard.en} — ${state.mainCard.name}`;
+    document.getElementById("keepTheme").textContent = state.theme;
+    document.getElementById("keepWord").textContent = state.word;
+    go("revisionStory");
+}
 
-function makeTransformation(card,word){
+function drawAdvice() {
+    const remaining = cards.filter(c => c.id !== state.mainCard?.id);
+    state.adviceCard = remaining[Math.floor(Math.random() * remaining.length)];
+    
+    document.getElementById("adviceCardName").textContent = `${state.adviceCard.en} — ${state.adviceCard.name}`;
+    document.getElementById("adviceBefore").style.display = "none";
+    document.getElementById("adviceAfter").style.display = "block";
+    
+    document.getElementById("adviceText").textContent = 
+        `提示された視点：【${state.adviceCard.name}】\n\n「${state.theme}」に対して、もうひとつの角度からのアプローチ。\n結論を急がず、この象徴が示唆する構図を頭の片隅に留めておくこと。`;
+    
+    document.getElementById("finalCard").textContent = `${state.mainCard.name} × ${state.adviceCard.name}`;
+    document.getElementById("finalAdvice").textContent = `「${state.theme}」という問いに対し、「${state.word}」の感覚を携えて進むこと。`;
 
-    const endings={
-
-        "愚者":
-`旅人は、立ち止まった。
-荷物の中から「${word}」を取り出す。
-
-それを道端に置いて、
-少しだけ遠くを見る。
-
-戻ることもできる。
-進むこともできる。
-
-旅人は、まだ決めなかった。`,
-
-        "魔術師":
-`机の上に、
-「${word}」と書かれた紙が置かれた。
-
-誰かがそれを見つける。
-
-昨日まで空白だった場所に、
-ひとつだけ印がついた。
-
-道具は同じなのに、
-机の上の景色が変わっていた。`,
-
-        "女教皇":
-`雨が止んだ。
-
-開いたままの本に、
-「${word}」という一語だけが現れる。
-
-鍵はまだそこにある。
-
-けれど今度は、
-本の最後のページに
-小さな鍵穴が描かれていた。`,
-
-        "女帝":
-`庭師は、
-「${word}」を小さな鉢に植えた。
-
-すぐには何も起こらない。
-
-夕方になっても、
-土は静かなままだった。
-
-翌朝、
-まだ名前のない芽がひとつ出ていた。`,
-
-        "皇帝":
-`地図の端に、
-「${word}」と書き込まれた。
-
-予定にはなかった場所だった。
-
-しばらく眺めてから、
-線が一本引き直される。
-
-まっすぐだった道が、
-少しだけ曲がった。`,
-
-        "法王":
-`子どもは、
-「${word}」という順番で
-古い手順を試した。
-
-最後の音が鳴る。
-
-何も壊れなかった。
-
-むしろ、
-ずっと見落としていた扉が
-一つだけ開いた。`,
-
-        "恋人":
-`二人は、
-「${word}」について話した。
-
-右の道と左の道。
-どちらにも同じ言葉が残る。
-
-しばらくして、
-二人は別々の道へ歩き出した。
-
-振り返る人はいなかった。`,
-
-        "戦車":
-`二頭の馬が、
-「${word}」の書かれた旗を見つめる。
-
-御者は手綱を少し緩めた。
-
-馬は止まらなかった。
-
-けれど、
-走る方向だけが変わった。`,
-
-        "正義":
-`二つの箱の間に、
-「${word}」と書かれた紙が置かれた。
-
-誰かが両方をもう一度持ち上げる。
-
-重さは変わらない。
-
-けれど、
-選ぶ基準が少し変わっていた。`,
-
-        "隠者":
-`老人は灯りを少し高く掲げた。
-
-道の先に、
-「${word}」が置かれている。
-
-遠くからでは見えなかったものだ。
-
-老人は急がず、
-その場所まで歩いていった。`,
-
-        "運命の輪":
-`歯車が一周する。
-
-昨日と同じ場所に、
-「${word}」が置かれていた。
-
-誰かが拾い上げる。
-
-時計はまた動き始めた。
-
-今度は、少し違う音がした。`,
-
-        "力":
-`獣の前に、
-「${word}」が置かれる。
-
-獣は近づき、
-しばらく匂いを嗅いだ。
-
-それから、
-それを壊さずに横へ置く。
-
-二人の間に、
-少しだけ空間ができた。`,
-
-        "吊られた男":
-`逆さまの世界で、
-「${word}」だけが落ちてこない。
-
-旅人はそれを眺める。
-
-足元だった場所が、
-いつの間にか空になっている。
-
-旅人は初めて、
-反対側を見た。`,
-
-        "死神":
-`赤い椅子の上に、
-「${word}」が残された。
-
-店主は看板を外す。
-
-扉を閉める前に、
-もう一度だけ振り返った。
-
-翌朝、
-椅子だけが外に出されていた。`,
-
-        "節制":
-`
+    setTimeout(() => go("adviceResult"), 1200);
+}
+</script>
+</body>
+</html>
