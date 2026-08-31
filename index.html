@@ -3,32 +3,39 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="theme-color" content="#0d1117">
-<title>結の札｜一枚の札から、物語がひらく。</title>
+<meta name="theme-color" content="#0a0c10">
+<title>結の札｜YUI NO FUDA</title>
+
+<!-- Modern Serif & Sans Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Noto+Serif+JP:wght@200;300;400&family=Plus+Jakarta+Sans:wght@300;400&display=swap" rel="stylesheet">
 
 <style>
 /* =========================================================
-   DESIGN SYSTEM (MODERN EDITORIAL & CLEAN DARK)
+   DESIGN SYSTEM (HIGH-END EDITORIAL & MINIMAL DARK)
    ========================================================= */
 :root {
-    --bg-base: #0d1117;
-    --bg-surface: #141b24;
-    --bg-card: rgba(255, 255, 255, 0.03);
-    --text-main: #f0ede6;
-    --text-sub: #8b949e;
-    --accent: #c5a059;
-    --accent-muted: rgba(197, 160, 89, 0.2);
-    --border: rgba(255, 255, 255, 0.1);
-    --border-accent: rgba(197, 160, 89, 0.35);
+    --bg-base: #0a0c10;
+    --bg-card: rgba(255, 255, 255, 0.02);
+    --text-primary: #f1f3f5;
+    --text-secondary: #9da6b2;
+    --text-muted: #4e5664;
+    --accent: #d4af37;
+    --accent-dim: rgba(212, 175, 55, 0.15);
+    --border: rgba(255, 255, 255, 0.08);
+    --border-gold: rgba(212, 175, 55, 0.3);
 
-    --serif: "Shippori Mincho", "Yu Mincho", "YuMincho", "Hiragino Mincho ProN", serif;
-    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-serif: "Noto Serif JP", "Cormorant Garamond", serif;
+    --font-sans: "Plus Jakarta Sans", -apple-system, sans-serif;
+    --font-en: "Cormorant Garamond", serif;
 }
 
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    -webkit-tap-highlight-color: transparent;
 }
 
 html, body {
@@ -37,20 +44,18 @@ html, body {
     overflow: hidden;
     overscroll-behavior: none;
     background-color: var(--bg-base);
-    color: var(--text-main);
-    font-family: var(--serif);
+    color: var(--text-primary);
+    font-family: var(--font-serif);
     -webkit-font-smoothing: antialiased;
 }
 
-/* =========================================================
-   STAGE & SCENE NAVIGATION
-   ========================================================= */
+/* Background Noise / Depth Gradient */
 #stage {
     width: 100vw;
     height: 100dvh;
     position: relative;
     overflow: hidden;
-    background: radial-gradient(circle at 50% 30%, #161e2b 0%, var(--bg-base) 70%);
+    background: radial-gradient(circle at 50% 20%, #121721 0%, var(--bg-base) 75%);
 }
 
 .scene {
@@ -61,24 +66,24 @@ html, body {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: max(24px, env(safe-area-inset-top)) 24px max(24px, env(safe-area-inset-bottom));
+    padding: max(32px, env(safe-area-inset-top)) 24px max(32px, env(safe-area-inset-bottom));
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transform: translateY(10px);
-    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.6s;
+    transform: scale(0.98) translateY(12px);
+    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.7s;
 }
 
 .scene.active {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
-    transform: translateY(0);
+    transform: scale(1) translateY(0);
 }
 
 .scene-inner {
     width: 100%;
-    max-width: 540px;
+    max-width: 520px;
     max-height: 100%;
     display: flex;
     flex-direction: column;
@@ -88,144 +93,112 @@ html, body {
 }
 
 /* =========================================================
-   ABSTRACT ARTWORK (脱臭・スタイリッシュ化モチーフ)
+   MINIMAL ARTWORK & ARCHITECTURE
    ========================================================= */
 
-/* 月の代わりに「幾何学の光環」 */
-.ring-symbol {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    border: 1px solid var(--accent);
+/* ミニマル幾何学モチーフ */
+.geo-symbol {
+    width: 64px;
+    height: 64px;
+    border: 1px solid var(--border-gold);
     position: relative;
-    margin-bottom: 32px;
+    margin-bottom: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 0 30px rgba(197, 160, 89, 0.12);
-}
-
-.ring-symbol::before {
-    content: "";
-    width: 60%;
-    height: 60%;
-    border-radius: 50%;
-    border: 1px stroke var(--border-accent);
-    background: radial-gradient(circle, rgba(197, 160, 89, 0.15) 0%, transparent 70%);
-}
-
-/* ドアの代わりに「ミニマル・フレーム」 */
-.frame-symbol {
-    width: 120px;
-    height: 170px;
-    border: 1px solid var(--border-accent);
-    position: relative;
-    margin-bottom: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.frame-symbol::after {
-    content: "";
-    width: 80%;
-    height: 80%;
-    border: 1px dashed var(--border);
-}
-
-/* 怪しい店主の影の代わりに「立体幾何学オブジェクト」 */
-.abstract-room {
-    width: min(88vw, 420px);
-    height: 44vh;
-    max-height: 360px;
-    border: 1px solid var(--border);
-    background: rgba(20, 27, 36, 0.4);
-    backdrop-filter: blur(10px);
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 24px;
-    border-radius: 4px;
-}
-
-.cube-object {
-    width: 40px;
-    height: 40px;
-    border: 1px solid var(--accent);
     transform: rotate(45deg);
-    margin-bottom: 24px;
-    position: relative;
-    transition: transform 0.8s ease;
+    transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.cube-object::after {
+.geo-symbol::after {
+    content: "";
+    width: 32px;
+    height: 32px;
+    border: 1px dashed var(--accent);
+}
+
+.scene.active .geo-symbol {
+    transform: rotate(225deg);
+}
+
+/* 読書用カードフレーム */
+.narrative-card {
+    width: 100%;
+    padding: 40px 32px;
+    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.015);
+    backdrop-filter: blur(16px);
+    position: relative;
+    margin: 20px 0;
+    text-align: left;
+}
+
+.narrative-card::before {
     content: "";
     position: absolute;
-    inset: 4px;
-    border: 1px solid var(--border-accent);
+    top: -1px; left: 24px; width: 40px; height: 1px;
+    background: var(--accent);
 }
 
 /* =========================================================
-   TYPOGRAPHY & ELEMENTS
+   TYPOGRAPHY
    ========================================================= */
-h1 {
-    font-size: clamp(32px, 8vw, 48px);
+.tag {
+    font-family: var(--font-sans);
+    font-size: 0.65rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
     font-weight: 300;
-    letter-spacing: 0.25em;
-    color: var(--text-main);
-    margin-left: 0.25em;
-    margin-bottom: 8px;
+}
+
+h1 {
+    font-size: clamp(34px, 7vw, 48px);
+    font-weight: 200;
+    letter-spacing: 0.2em;
+    color: var(--text-primary);
+    margin-bottom: 16px;
 }
 
 h2 {
-    font-size: clamp(20px, 5vw, 26px);
-    font-weight: 400;
-    color: var(--text-main);
+    font-size: clamp(20px, 4.5vw, 24px);
+    font-weight: 300;
     letter-spacing: 0.15em;
-    margin-bottom: 16px;
+    color: var(--text-primary);
+    margin-bottom: 20px;
+}
+
+.en-title {
+    font-family: var(--font-en);
+    font-size: 1.1rem;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    margin-bottom: 6px;
+    font-weight: 300;
 }
 
 .lead {
     font-size: 0.95rem;
     line-height: 2.2;
-    color: #d1d5db;
+    color: var(--text-secondary);
     font-weight: 300;
 }
 
-.small {
-    font-family: var(--sans);
-    font-size: 0.7rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--accent);
-}
-
-.card-name {
-    font-family: var(--sans);
-    font-size: 0.75rem;
-    letter-spacing: 0.25em;
-    color: var(--accent);
-    margin-bottom: 20px;
-}
-
-.story {
-    width: 100%;
-    font-size: clamp(0.9rem, 3.8vw, 1rem);
-    line-height: 2.1;
-    text-align: left;
-    white-space: pre-line;
+.story-text {
+    font-size: clamp(0.9rem, 3.6vw, 0.98rem);
+    line-height: 2.3;
     color: #e2e8f0;
     font-weight: 300;
+    white-space: pre-line;
 }
 
 .note {
-    color: var(--text-sub);
-    font-size: 0.8rem;
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
     line-height: 1.8;
-    font-family: var(--sans);
-    font-weight: 300;
 }
 
 /* =========================================================
@@ -233,48 +206,37 @@ h2 {
    ========================================================= */
 button {
     appearance: none;
-    border: 1px solid var(--border-accent);
+    border: 1px solid var(--border);
     background: transparent;
-    color: var(--text-main);
-    font-family: var(--serif);
-    font-size: 0.85rem;
-    letter-spacing: 0.15em;
-    padding: 14px 36px;
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    padding: 16px 40px;
     cursor: pointer;
-    margin-top: 16px;
-    transition: all 0.3s ease;
-    border-radius: 2px;
+    margin-top: 20px;
+    transition: all 0.4s ease;
+    position: relative;
+    outline: none;
 }
 
 button:hover {
-    background: var(--accent);
-    color: var(--bg-base);
     border-color: var(--accent);
-}
-
-button:active {
-    transform: scale(0.98);
+    color: var(--accent);
+    background: var(--accent-dim);
 }
 
 button.primary {
-    border-color: var(--accent);
-    background: var(--accent-muted);
-    color: var(--accent);
+    border-color: var(--border-gold);
+    color: var(--text-primary);
+    background: rgba(212, 175, 55, 0.05);
 }
 
 button.primary:hover {
+    border-color: var(--accent);
     background: var(--accent);
     color: var(--bg-base);
-}
-
-button.ghost {
-    border-color: var(--border);
-    color: var(--text-sub);
-}
-
-button.ghost:hover {
-    border-color: var(--text-sub);
-    color: var(--text-main);
 }
 
 input {
@@ -282,14 +244,14 @@ input {
     border: none;
     border-bottom: 1px solid var(--border);
     background: transparent;
-    color: var(--text-main);
-    font-family: var(--serif);
-    font-size: 1rem;
+    color: var(--text-primary);
+    font-family: var(--font-serif);
+    font-size: 1.05rem;
     text-align: center;
-    padding: 12px 0;
-    margin: 20px 0;
+    padding: 14px 0;
+    margin: 24px 0 16px;
     outline: none;
-    transition: border-color 0.3s;
+    transition: border-color 0.4s;
 }
 
 input:focus {
@@ -297,102 +259,78 @@ input:focus {
 }
 
 input::placeholder {
-    color: var(--text-sub);
+    color: var(--text-muted);
     font-size: 0.85rem;
+    font-family: var(--font-sans);
+    letter-spacing: 0.05em;
 }
 
 /* =========================================================
-   CARD GRID & TABLE
+   GRID SELECTION (CARDS)
    ========================================================= */
 .card-table {
     width: min(90vw, 380px);
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 10px;
-    margin: 24px auto 12px;
+    gap: 12px;
+    margin: 28px auto 16px;
 }
 
 .draw-card {
-    aspect-ratio: 2/3;
+    aspect-ratio: 1/1.6;
     border: 1px solid var(--border);
-    background: rgba(255, 255, 255, 0.02);
+    background: rgba(255, 255, 255, 0.01);
     position: relative;
     cursor: pointer;
-    transition: all 0.3s ease;
-    border-radius: 2px;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.draw-card::before {
+.draw-card::after {
     content: "";
     position: absolute;
     inset: 4px;
-    border: 1px solid rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.02);
 }
 
 .draw-card:hover {
     border-color: var(--accent);
     transform: translateY(-4px);
-    background: rgba(197, 160, 89, 0.05);
+    background: var(--accent-dim);
 }
 
 .draw-card.selected {
     border-color: var(--accent);
-    background: var(--accent-muted);
-    box-shadow: 0 0 20px rgba(197, 160, 89, 0.2);
-    transform: translateY(-6px);
+    background: var(--accent);
+    box-shadow: 0 0 25px rgba(212, 175, 55, 0.25);
 }
 
-/* =========================================================
-   BOOK CONTAINER
-   ========================================================= */
-.book {
-    width: min(88vw, 460px);
-    padding: 36px 28px;
-    border: 1px solid var(--border);
-    background: rgba(18, 24, 33, 0.6);
-    backdrop-filter: blur(12px);
-    position: relative;
-    border-radius: 2px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-}
-
-.book::before {
-    content: "YUI NO FUDA";
-    position: absolute;
-    top: 14px;
-    left: 20px;
-    font-family: var(--sans);
-    font-size: 0.55rem;
-    letter-spacing: 0.25em;
-    color: var(--text-sub);
-}
-
-/* =========================================================
-   RESULT CARDS
-   ========================================================= */
-.keep-card {
-    width: min(88vw, 400px);
-    border: 1px solid var(--border-accent);
-    padding: 32px 24px;
-    background: rgba(20, 27, 36, 0.7);
-    backdrop-filter: blur(8px);
+/* SUMMARY DISPLAY */
+.summary-box {
+    width: 100%;
+    padding: 28px 24px;
+    border: 1px solid var(--border-gold);
+    background: rgba(212, 175, 55, 0.02);
     text-align: left;
-    border-radius: 2px;
+    margin-bottom: 24px;
 }
 
-.keep-card .title {
-    color: var(--accent);
-    font-family: var(--sans);
-    font-size: 0.7rem;
+.summary-item {
+    margin-bottom: 16px;
+}
+.summary-item:last-child { margin-bottom: 0; }
+
+.summary-label {
+    font-family: var(--font-sans);
+    font-size: 0.65rem;
     letter-spacing: 0.2em;
-    margin-bottom: 20px;
+    color: var(--text-muted);
     text-transform: uppercase;
+    margin-bottom: 4px;
 }
 
-.word-display {
+.summary-value {
+    font-size: 0.95rem;
     color: var(--accent);
-    border-bottom: 1px solid var(--accent);
-    padding-bottom: 2px;
 }
 </style>
 </head>
@@ -400,186 +338,126 @@ input::placeholder {
 <body>
 <div id="stage">
 
-<!-- HOME -->
+<!-- Scene 1: INTRO -->
 <section id="home" class="scene active">
     <div class="scene-inner">
-        <div class="ring-symbol"></div>
-        <p class="small">Interactive Narrative</p>
-        <h1>結の札</h1>
-        <div style="height: 20px;"></div>
+        <div class="geo-symbol"></div>
+        <p class="tag">Narrative Thought Experiment</p>
+        <h1>結 の 札</h1>
         <p class="lead">
-            ここでは、答えを当てません。<br>
-            ひとつの出来事を、<br>
-            少し違う場所から眺めてみます。
+            答えを委ねるのではなく、<br>
+            思考の視点を少しだけずらしてみる。<br>
+            一枚の風景から始まる、短編対話体験。
         </p>
-        <button class="primary" onclick="go('entrance')">物語をはじめる</button>
+        <button class="primary" onclick="go('theme')">Begin Experience</button>
     </div>
 </section>
 
-<!-- ENTRANCE -->
-<section id="entrance" class="scene">
-    <div class="scene-inner">
-        <div class="frame-symbol"></div>
-        <p class="small">22 ARCHETYPES</p>
-        <p class="lead" style="margin-top: 16px;">
-            静寂のなかに、<br>
-            22の場面が待っています。
-        </p>
-        <button onclick="go('theme')">扉をひらく</button>
-    </div>
-</section>
-
-<!-- THEME -->
+<!-- Scene 2: THEME INPUT -->
 <section id="theme" class="scene">
     <div class="scene-inner">
-        <p class="small">QUESTION</p>
-        <h2 style="margin-top: 12px;">今日は、何を眺めますか？</h2>
-        <p class="note">答えを出すためではなく、<br>物語に置いておくための問いです。</p>
-        <input id="themeInput" type="text" maxlength="60" placeholder="例：まだ諦めたくないこと">
-        <button class="primary" onclick="submitTheme()">この問いを置く</button>
+        <p class="tag">Step 01 / Focus</p>
+        <h2>思考の対象をひとつ置く</h2>
+        <p class="note">答えを出すためではなく、<br>物語の背景に据えるための問いです。</p>
+        <input id="themeInput" type="text" maxlength="60" placeholder="例：いま迷っている選択">
+        <button class="primary" onclick="submitTheme()">Next Option</button>
     </div>
 </section>
 
-<!-- DRAW -->
+<!-- Scene 3: CARD DRAW -->
 <section id="draw" class="scene">
     <div class="scene-inner">
-        <p class="small">SELECTION</p>
-        <h2 style="margin-top: 10px;">一枚、引く</h2>
-        <p class="note">どの場面が現れるかは、選びません。</p>
+        <p class="tag">Step 02 / Draw</p>
+        <h2>視点となる風景を選ぶ</h2>
+        <p class="note">22の異なる情景から、直感でひとつを選択してください。</p>
         <div id="cardTable" class="card-table"></div>
     </div>
 </section>
 
-<!-- CARD WORLD -->
+<!-- Scene 4: STORY READ -->
 <section id="world" class="scene">
     <div class="scene-inner">
-        <div id="mainCardName" class="card-name"></div>
-        <div class="book">
-            <div id="worldStory" class="story"></div>
+        <p class="en-title" id="mainCardEn"></p>
+        <h2 id="mainCardName" style="margin-bottom: 12px;"></h2>
+        <div class="narrative-card">
+            <div id="worldStory" class="story-text"></div>
         </div>
-        <p class="note" style="margin-top: 16px;">この世界で、目に留まったものをひとつ。</p>
+        <p class="note">この風景のなかで、最も強く印象に残ったエレメントは？</p>
         <button onclick="go('input')">言葉を置く</button>
     </div>
 </section>
 
-<!-- INPUT -->
+<!-- Scene 5: WORD INPUT -->
 <section id="input" class="scene">
     <div class="scene-inner">
-        <div class="card-name">IMPRESSION</div>
-        <p class="lead">何かひとつ、<br>持って帰るなら？</p>
-        <input id="wordInput" type="text" maxlength="30" placeholder="一言で大丈夫です">
-        <button class="primary" onclick="submitWord()">その言葉を置く</button>
-        <p class="note" style="margin-top: 16px;">正解はありません。</p>
+        <p class="tag">Step 03 / Catalyst</p>
+        <h2>印象に残った言葉</h2>
+        <p class="lead">物語のなかに投げ込む言葉を、<br>ひとつだけ残してください。</p>
+        <input id="wordInput" type="text" maxlength="30" placeholder="例：光、静寂、足跡">
+        <button class="primary" onclick="submitWord()">Transform</button>
     </div>
 </section>
 
-<!-- TRANSFORMED STORY -->
+<!-- Scene 6: TRANSFORMED STORY -->
 <section id="transformed" class="scene">
     <div class="scene-inner">
-        <div class="card-name"><span id="transformedCardName"></span></div>
-        <div class="book">
-            <div id="transformedStory" class="story"></div>
+        <p class="tag">Perspective Shifted</p>
+        <h2>変容した風景</h2>
+        <div class="narrative-card">
+            <div id="transformedStory" class="story-text"></div>
         </div>
-        <p class="note" style="margin-top: 14px;">あなたの言葉で、少しだけ光が変わりました。</p>
-        <button onclick="go('closebook')">本を閉じる</button>
+        <button onclick="go('revisionIntro')">別角度からの検証</button>
     </div>
 </section>
 
-<!-- CLOSE BOOK -->
-<section id="closebook" class="scene">
-    <div class="scene-inner">
-        <div class="ring-symbol" style="width: 45px; height: 45px; margin-bottom: 24px;"></div>
-        <p class="lead">本を閉じると、<br>さっきまでの世界が<br>静かに遠ざかります。</p>
-        <button onclick="go('revisionIntro')">もう一度、眺める</button>
-    </div>
-</section>
-
-<!-- REVISION INTRO -->
+<!-- Scene 7: REVISION INTRO -->
 <section id="revisionIntro" class="scene">
     <div class="scene-inner">
-        <p class="small">PERSPECTIVE</p>
-        <h2 style="margin-top: 12px;">同じ風景を、もう一度。</h2>
-        <p class="lead">今度は、少し違う角度から。<br>同じ世界を眺めてみます。</p>
-        <button class="primary" onclick="startRevision()">視点を変える</button>
+        <div class="geo-symbol"></div>
+        <p class="tag">Step 04 / Revision</p>
+        <h2>別の角度から、同じ課題を視る</h2>
+        <p class="lead">
+            言葉を添えたことで、<br>
+            物語の重心がわずかに変化しました。<br>
+            その構造を整理してみます。
+        </p>
+        <button class="primary" onclick="startRevision()">Analyze Context</button>
     </div>
 </section>
 
-<!-- REVISION STORY -->
+<!-- Scene 8: REVISION STORY -->
 <section id="revisionStory" class="scene">
     <div class="scene-inner">
-        <div class="card-name">REVISION</div>
-        <div class="book">
-            <div id="revisionText" class="story"></div>
+        <p class="tag">Structural View</p>
+        <h2>再構築された構図</h2>
+        <div class="narrative-card">
+            <div id="revisionText" class="story-text"></div>
         </div>
-        <button onclick="go('complete')">物語を閉じる</button>
+        <button onclick="go('complete')">結果を確認する</button>
     </div>
 </section>
 
-<!-- COMPLETE -->
+<!-- Scene 9: COMPLETE SUMMARY -->
 <section id="complete" class="scene">
     <div class="scene-inner">
-        <h2 style="margin-bottom: 12px;">物語は、ここまで。</h2>
-        <p class="lead">あなたが置いた言葉も、<br>静かにこの場所に留まります。</p>
-        <div style="height: 20px;"></div>
-        <button class="primary" onclick="go('revisionEnd')">持ち帰る</button>
-        <button class="ghost" onclick="go('adviceRoom')">対話の部屋へ</button>
-    </div>
-</section>
-
-<!-- REVISION END / TAKE HOME -->
-<section id="revisionEnd" class="scene">
-    <div class="scene-inner">
-        <div class="keep-card">
-            <div class="title">RECORD</div>
-            <p class="small" style="color: var(--text-main);"><span id="keepCard"></span></p>
-            <p style="margin-top: 16px; line-height: 1.8;">「<span id="keepTheme" style="color: var(--accent);"></span>」</p>
-            <hr style="border:0; border-top:1px solid var(--border); margin: 18px 0;">
-            <p style="font-size: 0.95rem;"><span id="keepWord" class="word-display"></span></p>
-        </div>
-        <p class="note" style="margin-top: 20px;">今日の視点を、日常へ。</p>
-        <button onclick="location.reload()">日常へ帰る</button>
-    </div>
-</section>
-
-<!-- ADVICE ROOM -->
-<section id="adviceRoom" class="scene">
-    <div class="scene-inner">
-        <p class="small">DIALOGUE</p>
-        <div class="abstract-room">
-            <div class="cube-object"></div>
-            <div id="adviceBefore">
-                <p class="lead" style="font-size: 0.9rem;">静寂のなかに、<br>もう一枚の問いが置かれている。</p>
-                <button class="primary" onclick="drawAdvice()">引き寄せる</button>
+        <p class="tag">Synthesis</p>
+        <h2>思考の記録</h2>
+        <div class="summary-box">
+            <div class="summary-item">
+                <div class="summary-label">Selected Archetype</div>
+                <div class="summary-value" id="summaryCard"></div>
             </div>
-            <div id="adviceAfter" style="display:none; width:100%; padding:15px;">
-                <div id="adviceCardName" class="card-name" style="margin-bottom:0;"></div>
+            <div class="summary-item">
+                <div class="summary-label">Initial Theme</div>
+                <div class="summary-value" id="summaryTheme"></div>
+            </div>
+            <div class="summary-item">
+                <div class="summary-label">Inserted Catalyst</div>
+                <div class="summary-value" id="summaryWord"></div>
             </div>
         </div>
-    </div>
-</section>
-
-<!-- ADVICE RESULT -->
-<section id="adviceResult" class="scene">
-    <div class="scene-inner">
-        <p class="small">SECOND PERSPECTIVE</p>
-        <h2>視点を深める</h2>
-        <div class="book">
-            <div id="adviceText" class="story"></div>
-        </div>
-        <button onclick="go('takehome')">この一手を持ち帰る</button>
-    </div>
-</section>
-
-<!-- TAKE HOME FINAL -->
-<section id="takehome" class="scene">
-    <div class="scene-inner">
-        <div class="keep-card">
-            <div class="title">ESSENCE</div>
-            <p style="font-size: 1.05rem; line-height: 2;"><span id="finalCard"></span></p>
-            <p style="margin-top: 16px; font-size: 0.9rem; line-height: 1.8; color: var(--text-sub);"><span id="finalAdvice"></span></p>
-        </div>
-        <p class="note" style="margin-top: 20px;">答えではなく、新しい見方を。</p>
-        <button onclick="location.reload()">日常へ帰る</button>
+        <p class="note" style="margin-bottom: 12px;">一つの視点に囚われず、新しい解釈を日常へ。</p>
+        <button class="primary" onclick="location.reload()">Finish & Reset</button>
     </div>
 </section>
 
@@ -587,48 +465,47 @@ input::placeholder {
 
 <script>
 /* =========================================================
-   STATE & DATA STRUCTURE
+   STATE & ARCHE TYPE SCENARIOS
+   文章を完全に整え、破綻のないエディトリアル表現に統一
    ========================================================= */
 const state = {
     theme: "",
     word: "",
-    mainCard: null,
-    adviceCard: null
+    mainCard: null
 };
 
 const cards = [
-    { id:0, name:"愚者", en:"THE FOOL", world:`旅人が、町を出る。\n行き先は決まっていない。\n\n背中には小さな荷物。\n足元では風が一度だけ吹き抜ける。\n\n振り返れば、昨日までの道。\n前を見れば、まだ名前のない道。\n\n旅人は、一歩だけ進んだ。` },
-    { id:1, name:"魔術師", en:"THE MAGICIAN", world:`古い机の上に、\n小さな道具がいくつも並んでいる。\n\n誰かが、ひとつずつ手に取る。\nまだ何になるのかは決まっていない。\n\n窓から朝の光が差し込む。\n\n机の上には、\n使われていない一枚の紙が残っていた。` },
-    { id:2, name:"女教皇", en:"THE HIGH PRIESTESS", world:`静かな図書室。\n誰もいないのに、一冊だけ開いている。\n\nページには文字がない。\n\n窓の外で静かに雨が降り始める。\n\n本の横には、\nまだ誰も触れていない鍵が置かれている。` },
-    { id:3, name:"女帝", en:"THE EMPRESS", world:`庭に、季節外れの花が咲いている。\n\n誰かが水をやっている。\n名前は知らない花だった。\n\nその隣には、\nまだ芽を出していない鉢がある。` },
-    { id:4, name:"皇帝", en:"THE EMPEROR", world:`石造りの部屋に、\n大きな机が置かれている。\n\n机の上には地図。\n線はまっすぐ引かれている。\n\nけれど窓の外では、\n予定になかった雨が降っている。` },
-    { id:5, name:"法王", en:"THE HIEROPHANT", world:`古い建物の中で、\n誰かが昔から続く手順を繰り返している。\n\n同じ時間。同じ場所。同じ音。\n\n今日は一人の人が、\nその手順を少しだけ違う順番で行った。` },
-    { id:6, name:"恋人", en:"THE LOVERS", world:`分かれ道の前に、\n二人の人が立っている。\n\n右の道には明るい街。\n左の道には静かな森。\n\n二人は同じ方向を見ていない。\nけれど、まだ歩き出してはいなかった。` },
-    { id:7, name:"戦車", en:"THE CHARIOT", world:`朝、二頭の馬が門の前にいる。\nそれぞれ違う方向を向いている。\n\n御者は手綱を握ったまま、まだ動かない。\n遠くで静かに鐘が鳴る。` },
-    { id:8, name:"正義", en:"JUSTICE", world:`机の上に、二つの箱がある。\n重さはほとんど同じ。中身だけが違う。\n\n窓から光が差し、机の中央を横切る。\n誰かが一度だけ、両方の箱を持ち上げた。` },
-    { id:9, name:"隠者", en:"THE HERMIT", world:`夜の道を、一人の人が歩いている。\n手には小さな灯り。\n\n遠くに町の明かりが見えるが、人は急がない。\n灯りの届く範囲だけを確かめるように進む。` },
-    { id:10, name:"運命の輪", en:"WHEEL OF FORTUNE", world:`古い塔の時計が鳴った。\n止まっていた大きな歯車が、ゆっくり動き始める。\n\n誰かが動かしたわけではない。\n一周すると、昨日と同じ景色が見えた。` },
-    { id:11, name:"力", en:"STRENGTH", world:`静けさの中で、大きな存在に向かい合う。\n手には何も持っていない。\n\nしばらく視線が交差する。\nやがて、静かな納得が空間を満たした。` },
-    { id:12, name:"吊られた男", en:"THE HANGED MAN", world:`時間だけが静止している。\n視点を180度変えて景色を眺める。\n\n今まで見えなかった光の反射が、\nそこには存在していた。` },
-    { id:13, name:"死神", en:"DEATH", world:`部屋の棚がひとつずつ空になっていく。\n役目を終えたものが静かに片付けられる。\n\n残された空白に、新しい風が吹き込んでいた。` },
-    { id:14, name:"節制", en:"TEMPERANCE", world:`ふたつの器から水を交互に移し替える。\n静かに、均等に。\n\n異なるふたつのものが、\nゆっくりとひとつに馴染んでいく。` },
-    { id:15, name:"悪魔", en:"THE DEVIL", world:`扉の前で、足を止めている。\n鍵は掛かっていない。\n\nただ、自ら手を伸ばすかどうか。\n選択権は最初から手にあった。` },
-    { id:16, name:"塔", en:"THE TOWER", world:`強風が吹き抜け、古い構造の一部が崩れる。\n驚きと共に空を見上げると、\n思ったよりもそこは広々としていた。` },
-    { id:17, name:"星", en:"THE STAR", world:`夜明け前の静かな水辺。\n水面に小さな光がひとつ映る。\n\n手を差し出すと、冷たい水が指を抜けていった。` },
-    { id:18, name:"月", en:"THE MOON", world:`霧の向こうに薄っすらとした輪郭が見える。\n近づくと形を変える光影。\n\n曖昧なまま、歩みを進めてみる。` },
-    { id:19, name:"太陽", en:"THE SUN", world:`窓いっぱいに朝の光が差し込む。\n隠されていた傷跡も露わになるが、\nそれすらも暖かく照らされていた。` },
-    { id:20, name:"審判", en:"JUDGEMENT", world:`遠くから響く澄んだ音。\n過去の出来事が、全く新しい意味を持って\n静かに胸の内に蘇る。` },
-    { id:21, name:"世界", en:"THE WORLD", world:`ひとつの周期が完了する。\n最初の場所に戻ってきたが、\n見える景色の深度が、以前とは違っていた。` }
+    { id:0, name:"愚者", en:"THE FOOL", world:`あらかじめ用意された地図を持たず、男は境界線の上に立つ。\n\n背後の街には過去のやり方が残っているが、目の前に広がる空白にはまだ名前がついていない。\n\n踏み出すか留まるかの判断さえ保留したまま、風の音だけに耳を澄ませている。` },
+    { id:1, name:"魔術師", en:"THE MAGICIAN", world:`テーブルの上には、使い方の決まっていない道具が静かに配置されている。\n\n要素はすべて出揃っている。あとは何を意図し、どのような順番で組み合わせるかという構造の問題だけが残されている。\n\n静かな部屋に、朝の光が差し込み始めている。` },
+    { id:2, name:"女教皇", en:"THE HIGH PRIESTESS", world:`静寂に満ちた部屋で、一枚の白い紙が置かれている。\n\nそこには解釈も主張も書かれていない。結論を急ぐことなく、ただ客観的な事実だけがそこにある。\n\n水面のように波立たない思考が、空間全体を満たしている。` },
+    { id:3, name:"女帝", en:"THE EMPRESS", world:`計画や計算を超えて、物事が自発的に育ち始める場所。\n\n時間をかけて耕された土壌のうえで、意図しなかった変化が静かに芽吹いている。\n\n果実が実るまでのプロセスを、ただ見守る時間が流れている。` },
+    { id:4, name:"皇帝", en:"THE EMPEROR", world:`強固な枠組みと秩序によって守られた空間。\n\n規律と構造が整い、すべての要素が予測可能な位置におさまっている。\n\nしかし、その完璧な境界線の外側では、新しい環境の変化がゆるやかに始まっている。` },
+    { id:5, name:"法王", en:"THE HIEROPHANT", world:`長年受け継がれてきた静かなルールと手順。\n\n疑問を挟むことなく続いてきた形式に、ひとつの異なる視点が持ち込まれる。\n\n全体の調和を保ちながら、小さな再定義が試みられようとしている。` },
+    { id:6, name:"恋人", en:"THE LOVERS", world:`ふたつの相反する選択肢が、等しい重さで目の前に提示されている。\n\nどちらかを選ぶことは、もう片方を手放すことを意味する。\n\n静寂のなかで、自らの真の基準が試される瞬間を迎えている。` },
+    { id:7, name:"戦車", en:"THE CHARIOT", world:`方向性の異なるふたつのエネルギーが、ひとつの軸に接続される。\n\n力で抑え込むのではなく、相反するベクトルを同じ目的に向かって収束させる。\n\n意思のベクトルが明確になった瞬間、景色が高速で動き始める。` },
+    { id:8, name:"正義", en:"JUSTICE", world:`感情を取り払い、ただ静かに事象のバランスを見極める。\n\n過剰な期待も無用な偏見もなく、秤は水平のままで保たれている。\n\n適切な判断を下すための、ノイズのない透明な視界が広がっている。` },
+    { id:9, name:"隠者", en:"THE HERMIT", world:`周囲の喧騒から離れ、単身で思考を掘り下げる深い静寂。\n\n手元の小さな光源だけが、次に踏み出すべき一歩の範囲だけを正確に照らしている。\n\n遠くの目的地ではなく、足元の確実に踏み固められた事実を確認していく。` },
+    { id:10, name:"運命の輪", en:"WHEEL OF FORTUNE", world:`大きなシステムの周期が変化し、新しいフェーズへと推移する。\n\n個人の意思とは無関係に環境の変調が起こり、新しい配置が再構成される。\n\n抗うことなく、その変化の波に乗るタイミングが訪れている。` },
+    { id:11, name:"力", en:"STRENGTH", world:`強い圧力に対し、過剰な反発を行わず、しなやかに受け止める。\n\nコントロールとは力で制することではなく、静かな理解と耐性によって成立する。\n\n対立していた要素が、徐々に緊張を緩めていく。` },
+    { id:12, name:"吊られた男", en:"THE HANGED MAN", world:`行動を一時停止し、視点を真逆へと反転させる時間。\n\n動けない状態を受け入れることで、今まで見落としていた隠れた構造が浮き彫りになる。\n\n停止していること自体が、次のステップへの重要な準備となっている。` },
+    { id:13, name:"死神", en:"DEATH", world:`不要になったプロセスの終了と、それに伴う不可避なリセット。\n\nひとつの役目が完全に終わりを告げ、空白の領域が生み出される。\n\nその空白こそが、新しい構造を受け入れる唯一の前提条件となる。` },
+    { id:14, name:"節制", en:"TEMPERANCE", world:`異なる要素同士が少しずつ混ざり合い、新しい均衡点を探る。\n\n極端な判断を避け、グラデーションのような微調整が繰り返される。\n\nやがてふたつの流れは自然な統合へと向かっていく。` },
+    { id:15, name:"悪魔", en:"THE DEVIL", world:`自らが作り出した固定観念や、強い執着に拘束されている状態。\n\nしかし、その拘束を解くための鍵は最初から手の中に握られている。\n\n必要なのは、依存の構造を客観的に認識することだけである。` },
+    { id:16, name:"塔", en:"THE TOWER", world:`不完全な前提の上に築かれていた構造が、予期せぬ衝撃で崩壊する。\n\n一瞬の混乱の後、遮るもののなくなった空間に広大な空が現れる。\n\n真の基盤をゼロから再構築するための機会が訪れている。` },
+    { id:17, name:"星", en:"THE STAR", world:`余計な装飾やノイズが削ぎ落とされ、本質的なビジョンだけが残る。\n\n遠くで静かに光る確信のような指標に向かって、思考がクリアに整理されていく。\n\n静かだが失われることのない希望の輪郭が見えている。` },
+    { id:18, name:"月", en:"THE MOON", world:`全体像が曖昧で、不確実性の霧が立ち込めている空間。\n\n輪郭は不鮮明だが、その不透明さの中にこそ新しい可能性が潜んでいる。\n\n無理に結論を急がず、曖昧さそのものを保留しておく柔軟性が求められる。` },
+    { id:19, name:"太陽", en:"THE SUN", world:`隠されていたものがすべて明瞭な光のもとに晒される。\n\n曖昧さは消失し、事実関係が圧倒的な明瞭さをもって立ち現れる。\n\n物事はシンプルであり、複雑に考えていたのは自らの視点であったと気づく。` },
+    { id:20, name:"審判", en:"JUDGEMENT", world:`過去の失敗や断片的な経験が、新しいコンテクストを得て再評価される。\n\n埋もれていた価値が再び呼び起こされ、途切れていた文脈がひとつにつながる。\n\n新たな決意とともに、再スタートの合図が鳴り響く。` },
+    { id:21, name:"世界", en:"THE WORLD", world:`ひとつのサイクルが完成し、完璧な調和と完結を迎える。\n\n全てのパズルのピースが定位置におさまり、明確な収束を見せている。\n\nそしてこの完結は、次の高次元なサイクルへの起点となる。` }
 ];
 
-/* NAVIGATION */
+/* STAGE SYSTEM */
 function go(id) {
     document.querySelectorAll(".scene").forEach(s => s.classList.remove("active"));
     const target = document.getElementById(id);
     if (target) target.classList.add("active");
 }
 
-/* LOGIC */
 function submitTheme() {
     const val = document.getElementById("themeInput").value.trim();
     if (!val) { document.getElementById("themeInput").focus(); return; }
@@ -648,7 +525,7 @@ function createDrawCards() {
             if (state.mainCard) return;
             el.classList.add("selected");
             state.mainCard = card;
-            setTimeout(openMainCard, 500);
+            setTimeout(openMainCard, 450);
         };
         table.appendChild(el);
     });
@@ -656,7 +533,8 @@ function createDrawCards() {
 
 function openMainCard() {
     const card = state.mainCard;
-    document.getElementById("mainCardName").textContent = `${card.en} — ${card.name}`;
+    document.getElementById("mainCardEn").textContent = card.en;
+    document.getElementById("mainCardName").textContent = card.name;
     document.getElementById("worldStory").textContent = card.world;
     go("world");
 }
@@ -665,39 +543,23 @@ function submitWord() {
     const val = document.getElementById("wordInput").value.trim();
     if (!val) { document.getElementById("wordInput").focus(); return; }
     state.word = val;
-    document.getElementById("transformedCardName").textContent = `${state.mainCard.en} — ${state.mainCard.name}`;
-    document.getElementById("transformedStory").textContent = makeTransformation(state.mainCard, state.word);
+    
+    const card = state.mainCard;
+    document.getElementById("transformedStory").textContent = 
+        `${card.world}\n\n―― ここへ「${val}」という要素が投入された。\nこれまでの均衡が再配置され、見落とされていた側面に焦点が当たり始める。`;
+    
     go("transformed");
-}
-
-function makeTransformation(card, word) {
-    return `${card.world}\n\nそこへ、あなたが「${word}」を置いた。\n光の当たり方が微かに変わり、物語は新しい静寂を纏い始める。`;
 }
 
 function startRevision() {
     document.getElementById("revisionText").textContent = 
-        `【${state.mainCard.name}】の風景を、もう一度視点を変えて眺める。\n\n「${state.theme}」という問いと「${state.word}」という言葉。\nふたつの要素が重なる場所から、新しい解釈が生まれます。`;
-    document.getElementById("keepCard").textContent = `${state.mainCard.en} — ${state.mainCard.name}`;
-    document.getElementById("keepTheme").textContent = state.theme;
-    document.getElementById("keepWord").textContent = state.word;
+        `【${state.mainCard.name}の構造分析】\n\n設定された背景：「${state.theme}」\n投入された触媒：「${state.word}」\n\n従来のフレームワークを客観視し、「${state.word}」の視点を取り入れることで、固定化していた局面に対して柔軟な選択肢が生まれます。`;
+
+    document.getElementById("summaryCard").textContent = `${state.mainCard.en} (${state.mainCard.name})`;
+    document.getElementById("summaryTheme").textContent = state.theme;
+    document.getElementById("summaryWord").textContent = state.word;
+    
     go("revisionStory");
-}
-
-function drawAdvice() {
-    const remaining = cards.filter(c => c.id !== state.mainCard?.id);
-    state.adviceCard = remaining[Math.floor(Math.random() * remaining.length)];
-    
-    document.getElementById("adviceCardName").textContent = `${state.adviceCard.en} — ${state.adviceCard.name}`;
-    document.getElementById("adviceBefore").style.display = "none";
-    document.getElementById("adviceAfter").style.display = "block";
-    
-    document.getElementById("adviceText").textContent = 
-        `提示された視点：【${state.adviceCard.name}】\n\n「${state.theme}」に対して、もうひとつの角度からのアプローチ。\n結論を急がず、この象徴が示唆する構図を頭の片隅に留めておくこと。`;
-    
-    document.getElementById("finalCard").textContent = `${state.mainCard.name} × ${state.adviceCard.name}`;
-    document.getElementById("finalAdvice").textContent = `「${state.theme}」という問いに対し、「${state.word}」の感覚を携えて進むこと。`;
-
-    setTimeout(() => go("adviceResult"), 1200);
 }
 </script>
 </body>
