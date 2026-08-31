@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>結の札 | 一枚の札から、物語がひらく。</title>
+    <style>
+        :root {
+            --bg-color: #0a0e17;
+            --text-color: #eaddca;
+            --accent-color: #d4af37;
+            --sub-text-color: #888;
+            --border-color: #333;
+            --font-main: "Hiragino Mincho ProN", "Yu Mincho", serif;
+            --font-sub: "Helvetica Neue", Arial, sans-serif;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-main);
+            line-height: 1.8;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .scene {
+            display: none;
+            min-height: 100vh;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+        .scene.active { display: flex; opacity: 1; }
+
+        h1, h2 { color: var(--accent-color); font-weight: normal; margin-bottom: 20px; }
+        p { margin-bottom: 1.5em; max-width: 600px; }
+        .sub { font-size: 0.9em; color: var(--sub-text-color); font-family: var(--font-sub); }
+
+        button {
+            background: none;
+            border: 1px solid var(--accent-color);
+            color: var(--accent-color);
+            padding: 12px 30px;
+            font-family: var(--font-main);
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            text-decoration: none;
+        }
+        button:hover { background-color: rgba(212, 175, 55, 0.1); }
+        button:disabled { border-color: var(--border-color); color: var(--border-color); cursor: not-allowed; }
+
+        input[type="text"] {
+            background: none;
+            border: none;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 10px;
+            font-family: var(--font-main);
+            font-size: 1.1em;
+            width: 80%;
+            max-width: 400px;
+            text-align: center;
+            margin-bottom: 20px;
+            transition: border-color 0.3s ease;
+        }
+        input[type="text"]:focus { outline: none; border-bottom-color: var(--accent-color); }
+
+        .fuda-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            max-width: 320px;
+            margin: 30px auto;
+        }
+        .fuda-card {
+            aspect-ratio: 2/3;
+            background-color: #111;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+        .fuda-card.flipped { background-color: #1a1a1a; border-color: var(--accent-color); transform: rotateY(180deg); }
+        
+        .story-text { text-align: left; max-width: 600px; margin: 0 auto; white-space: pre-wrap; font-size: 1.05em;}
+        .word-badge { display: inline-block; border: 1px solid var(--border-color); padding: 2px 8px; font-size: 0.8em; color: var(--sub-text-color); margin: 0 5px; }
+
+        #scene-koboeya { background-color: #05070a; }
+        .tenshu { font-size: 0.9em; color: var(--sub-text-color); margin-bottom: 40px; font-style: italic;}
+
+        .shiori {
+            border: 1px solid var(--accent-color);
+            padding: 30px;
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: rgba(10, 14, 23, 0.5);
+            position: relative;
+        }
+        .shiori::before { content: 'YUI NO FUDA'; position: absolute; top: 10px; left: 10px; font-family: var(--font-sub); font-size: 0.7em; color: var(--border-color); }
+
+        .fade-in { animation: fadeIn 1s forwards; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        #api-key-setting {
+            position: fixed; top: 10px; right: 10px; z-index: 100;
+            background: rgba(0,0,0,0.8); padding: 10px; border: 1px solid var(--border-color);
+            font-family: var(--font-sub); font-size: 0.8em; color: var(--sub-text-color);
+        }
+        #api-key-setting input { background: none; border: 1px solid #333; color: #ccc; padding: 3px; width: 100px;}
+        #api-key-setting button { margin: 0 0 0 5px; padding: 3px 8px; font-size: 0.8em; border-color: #555; color: #ccc;}
+    </style>
+</head>
+<body>
+
+    <div id="api-key-setting">
+        Gemini API Key: <input type="password" id="apiKeyInput" placeholder="Enter Key">
+        <button onclick="saveApiKey()">Set</button>
+        <div class="sub" style="margin-top:5px">Empty = Demo Mode</div>
+    </div>
+
+    <audio id="sound-bell" src="https://cdn.pixabay.com/audio/2022/03/15/audio_2d05777085.mp3" preload="auto"></audio>
+
+    <div id="scene-home" class="scene active">
+        <h1 class="fade-in">結の札</h1>
+        <p class="fade-in sub" style="animation-delay: 0.3s">一枚の札から、物語がひらく。</p>
+        <div style="margin: 40px 0; max-width: 500px;" class="fade-in sub" style="animation-delay: 0.6s">
+            <p>ここでは、答えを当てません。</p>
+            <p>ひとつのことを、<br>いつもと少し違う場所から眺めてみます。</p>
+        </div>
+        <button class="fade-in" style="animation-delay: 1s" onclick="startExperience()">物語をはじめる</button>
+    </div>
+
+    <div id="scene-theme" class="scene">
+        <p class="sub">🔔</p>
+        <p class="tenshu">「いらっしゃいませ。」</p>
+        <p>今日は、何を眺めてみますか？</p>
+        <input type="text" id="user-theme" placeholder="例：仕事について迷っている">
+        <button onclick="submitTheme()">この問いを抱く</button>
+    </div>
+
+    <div id="scene-draw" class="scene">
+        <p>22の札が、静かに並んでいます。</p>
+        <p class="sub">あなたの問いに、ひとつの世界がひらきます。</p>
+        <div class="fuda-grid" id="fuda-grid-main"></div>
+    </div>
+
+    <div id="scene-story1" class="scene">
+        <p class="sub" id="story1-card-name">札の世界へ</p>
+        <div class="story-text" id="story1-text"></div>
+        <p style="margin-top:30px">……何か、目に留まるものはありますカ？</p>
+        <input type="text" id="user-word" placeholder="感じたこと、見えたもの">
+        <button onclick="submitWord()">言葉を刻む</button>
+    </div>
+
+    <div id="scene-story2" class="scene">
+        <div class="story-text" id="story2-text"></div>
+        <button onclick="gotoRevision()">本を閉じる</button>
+    </div>
+
+    <div id="scene-return" class="scene">
+        <p class="sub">🔔</p>
+        <p class="tenshu">「今日は、少し違う場所から眺めてみました。」</p>
+        <p>最初は「<span id="return-theme-display" style="color:var(--accent-color)"></span>」という問いでした。</p>
+        <div id="return-revision-prompt" style="display:none">
+            <p style="margin-top:30px">同じ問いを、もうひとつの視点から。</p>
+            <button onclick="startRevision()">リビジョン</button>
+        </div>
+    </div>
+
+    <div id="scene-revision-story" class="scene">
+        <p class="sub">もうひとつの視点</p>
+        <div class="story-text" id="revision-story-text"></div>
+        <button onclick="gotoComplete()">完了</button>
+    </div>
+
+    <div id="scene-complete" class="scene">
+        <h2>変容</h2>
+        <p>あなたが話してくれた言葉が、<br>少しだけこの物語に宿りました。</p>
+        <p class="sub">（物語が、変容しました）</p>
+        <button onclick="gotoSummary()">物語を振り返る</button>
+        <button style="border-color:#555; color:#aaa; margin-top:10px" onclick="gotoKoboeya()">アドバイスの小部屋へ</button>
+    </div>
+
+    <div id="scene-summary" class="scene">
+        <div class="shiori">
+            <p class="sub" id="summary-card-name"></p>
+            <p class="sub" style="color:var(--accent-color)">テーマ：<span id="summary-theme"></span></p>
+            <hr style="border:none; border-top:1px solid var(--border-color); margin: 15px 0;">
+            <div class="story-text" style="font-size:0.9em; line-height:1.6">
+                <span id="summary-story1"></span>
+                <span style="color:var(--accent-color)" id="summary-story2"></span>
+                <hr style="border:none; border-top:1px solid var(--border-color); margin: 10px 0;">
+                <span id="summary-revision"></span>
+            </div>
+        </div>
+        <button onclick="location.reload()">日常へ帰る</button>
+    </div>
+
+    <div id="scene-koboeya" class="scene">
+        <div class="sub">小さな扉をひらく。</div>
+        <p class="tenshu" style="margin-top:20px">店主が奥に立っている。<br>何も話さない。<br>ただ、あなたを見ている。</p>
+        <div id="koboeya-action">
+            <p>裏向きの札を一枚、静かに差し出した。</p>
+            <button onclick="drawAdviceFuda()">引く</button>
+        </div>
+        <div id="koboeya-result" style="display:none; text-align:center;">
+            <p class="sub" id="advice-card-name"></p>
+            <div class="shiori" id="advice-text" style="font-size:0.9em; text-align:left;"></div>
+            <button onclick="location.reload()">この一手を持ち帰る</button>
+        </div>
+    </div>
+
+    <script>
+        let state = {
+            scene: 'home', apiKey: '', isDemo: true, userTheme: '', mainCard: null,
+            userWord: '', story1: '', story2: '', revisionStory: '', adviceCard: null
+        };
+
+        const bellSound = document.getElementById('sound-bell');
+        const tarots = [
+            {id:0, name:"愚者", en:"THE FOOL"}, {id:1, name:"魔術師", en:"THE MAGICIAN"}, {id:2, name:"女教皇", en:"THE HIGH PRIESTESS"},
+            {id:3, name:"女帝", en:"THE EMPRESS"}, {id:4, name:"皇帝", en:"THE EMPEROR"}, {id:5, name:"法王", en:"THE HIEROPHANT"},
+            {id:6, name:"恋人", en:"THE LOVERS"}, {id:7, name:"戦車", en:"THE CHARIOT"}, {id:8, name:"正義", en:"THE JUSTICE"},
+            {id:9, name:"隠者", en:"THE HERMIT"}, {id:10, name:"運命の輪", en:"THE WHEEL OF FORTUNE"}, {id:11, name:"力", en:"THE STRENGTH"},
+            {id:12, name:"吊られた男", en:"THE HANGED MAN"}, {id:13, name:"死神", en:"THE DEATH"}, {id:14, name:"節制", en:"THE TEMPERANCE"},
+            {id:15, name:"悪魔", en:"THE DEVIL"}, {id:16, name:"塔", en:"THE TOWER"}, {id:17, name:"星", en:"THE STAR"},
+            {id:18, name:"月", en:"THE MOON"}, {id:19, name:"太陽", en:"THE SUN"}, {id:20, name:"審判", en:"THE JUDGEMENT"}, {id:21, name:"世界", en:"THE WORLD"}
+        ];
+
+        const demoScenario = {
+            mainCardId: 13,
+            story1: "朝の市場。\n一軒の店が、今日で閉じるらしい。\n\n店主は棚を空にし、\n壁から古い看板を外している。\n\n店の中は、どんどん何もなくなっていく。\n\n最後まで残ったのは、\n古い赤い椅子だった。",
+            story2: (word) => `店主は「${word}」を見つめる。\n看板はもう外した。\n商品もなくなった。\n\nそれでも${word}だけは、\n外へ運ばなかった。\n\n「……これだけは残そう。」`,
+            revision: "翌朝。\n誰もいなくなった店の前を、\n一人の子どもが通りかかる。\n\n店先には、古い赤い椅子。\n子どもはそこに座る。\n\n隣の店の主人が、\n「まだ捨ててないんだね」\nと声をかける。\n\n子どもは椅子を見つめる。",
+            advice: { text: "① カードの視点\n「全部続ける／全部やめる」の二択ではなく、\nいったん配分を変えてみる。\n\n② リビジョン\n例えば、今週だけ予定を一つ減らす。やり方を変える。一部分だけ続けてみる。\n\n③ 小さな一歩\n今すぐ結論を出さず、配分を変えてみる。\nそんな一手を、この札は見せてくれています。" }
+        };
+
+        function changeScene(sceneId) {
+            document.querySelectorAll('.scene').forEach(s => s.classList.remove('active'));
+            document.getElementById(`scene-${sceneId}`).classList.add('active');
+            window.scrollTo(0, 0);
+            state.scene = sceneId;
+        }
+
+        function playBell() {
+            bellSound.currentTime = 0;
+            bellSound.play().catch(e=>console.log("Audio play blocked"));
+        }
+
+        function startExperience() { changeScene('theme'); }
+
+        function submitTheme() {
+            const input = document.getElementById('user-theme').value;
+            if(!input) return alert("何を眺めてみますか？");
+            state.userTheme = input;
+            playBell();
+            changeScene('draw');
+            renderFudaGrid('main', selectMainFuda);
+        }
+
+        function renderFudaGrid(type, onClickFunc) {
+            const grid = document.getElementById(`fuda-grid-${type}`);
+            grid.innerHTML = '';
+            for(let i=0; i<22; i++) {
+                const card = document.createElement('div');
+                card.className = 'fuda-card';
+                card.onclick = () => onClickFunc(card, i);
+                grid.appendChild(card);
+            }
+        }
+
+        async function selectMainFuda(cardEl, index) {
+            if(state.mainCard) return;
+            cardEl.classList.add('flipped');
+            state.mainCard = tarots[index];
+            setTimeout(async () => {
+                changeScene('story1');
+                document.getElementById('story1-card-name').innerText = `${state.mainCard.en} ${state.mainCard.name}`;
+                await generateStory1();
+            }, 1000);
+        }
+
+        async function callGemini(prompt) {
+            if(!state.apiKey) throw new Error("API Key not set");
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${state.apiKey}`;
+            const response = await fetch(url, {
+                method: 'POST', headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+            });
+            const data = await response.json();
+            if(!data.candidates) throw new Error(data.error?.message || "API Error");
+            return data.candidates[0].content.parts[0].text;
+        }
+
+        const systemPrompt = `占い師ではなく「物語の店主」として振る舞え。悩みの分析、予言、断定、質問攻め、心理カウンセリング化、ポジティブ誘導、長文は厳禁。タロットの抽象概念を、具体的な風景・出来事・小道具として5〜8行の短い文学的な物語で体験させろ。`;
+
+        async function generateStory1() {
+            const textEl = document.getElementById('story1-text');
+            textEl.innerHTML = '<p class="sub">本をひらいています...</p>';
+            if(state.isDemo) {
+                await new Promise(r => setTimeout(r, 1500));
+                state.mainCard = tarots[demoScenario.mainCardId];
+                document.getElementById('story1-card-name').innerText = `${state.mainCard.en} ${state.mainCard.name}`;
+                state.story1 = demoScenario.story1;
+            } else {
+                try {
+                    const prompt = `${systemPrompt}\nテーマは「${state.userTheme}」。タロット「${state.mainCard.name}」の世界観に基づき、最初の短い物語（5-8行）を生成せよ。終わりとは何か等の説明はせず、終わりを出来事として見せろ。`;
+                    state.story1 = await callGemini(prompt);
+                } catch (e) {
+                    state.story1 = "（通信に失敗しました。栞にはデモの内容が刻まれます）\n\n" + demoScenario.story1;
+                }
+            }
+            textEl.innerText = state.story1;
+        }
+
+        async function submitWord() {
+            const input = document.getElementById('user-word').value;
+            if(!input) return alert("目に留まるものはありますカ？");
+            state.userWord = input;
+            changeScene('story2');
+            await generateStory2();
+        }
+
+        async function generateStory2() {
+            const textEl = document.getElementById('story2-text');
+            textEl.innerHTML = '<p class="sub">言葉が宿ります...</p>';
+            if(state.isDemo || state.story1.startsWith("（通信に失敗")) {
+                await new Promise(r => setTimeout(r, 1000));
+                state.story2 = demoScenario.story2(state.userWord);
+            } else {
+                try {
+                    const prompt = `${systemPrompt}\n最初の物語：\n${state.story1}\n\nユーザーの言葉：「${state.userWord}」\n\nこの言葉によって、物語上の世界、時間、人物、または小道具がどう変化するか。言葉を心理分析せず、物語上の出来事へ変換し、短い締め（5-8行）を生成せよ。`;
+                    state.story2 = await callGemini(prompt);
+                } catch (e) {
+                    state.story2 = "（物語の変容に失敗しました）";
+                }
+            }
+            textEl.innerText = state.story2;
+        }
+
+        function gotoRevision() {
+            playBell();
+            document.getElementById('return-theme-display').innerText = state.userTheme;
+            changeScene('return');
+            if(state.isDemo || (!state.story1.startsWith("（通信に失敗") && !state.story2.includes("失敗"))) {
+                document.getElementById('return-revision-prompt').style.display = 'block';
+            }
+        }
+
+        async function startRevision() {
+            changeScene('revision-story');
+            await generateRevisionStory();
+        }
+
+        async function generateRevisionStory() {
+            const textEl = document.getElementById('revision-story-text');
+            textEl.innerHTML = '<p class="sub">もうひとつの視点を探しています...</p>';
+            if(state.isDemo || state.story1.startsWith("（通信に失敗")) {
+                await new Promise(r => setTimeout(r, 1500));
+                state.revisionStory = demoScenario.revision;
+            } else {
+                try {
+                    const prompt = `${systemPrompt}\n同じテーマ「${state.userTheme}」、同じタロット「${state.mainCard.name}」。\nこれまでの物語：\n${state.story1}\n${state.story2}\n\nこれとは独立した、同じカードの別の側面を見る別の短い短編（リビジョン）を生成せよ。`;
+                    state.revisionStory = await callGemini(prompt);
+                } catch (e) {
+                    state.revisionStory = "（リビジョンの生成に失敗しました）";
+                }
+            }
+            textEl.innerText = state.revisionStory;
+        }
+
+        function gotoComplete() { changeScene('complete'); }
+
+        function gotoSummary() {
+            document.getElementById('summary-card-name').innerText = `${state.mainCard.en} ${state.mainCard.name}`;
+            document.getElementById('summary-theme').innerText = state.userTheme;
+            document.getElementById('summary-story1').innerText = state.story1 + "\n\n";
+            document.getElementById('summary-story2').innerHTML = `<span class="word-badge">${state.userWord}</span>\n` + state.story2;
+            document.getElementById('summary-revision').innerText = "\n\n【リビジョン】\n" + state.revisionStory;
+            changeScene('summary');
+        }
+
+        function gotoKoboeya() { changeScene('koboeya'); }
+
+        function drawAdviceFuda() {
+            state.adviceCard = tarots[Math.floor(Math.random() * tarots.length)];
+            document.getElementById('koboeya-action').style.display = 'none';
+            document.getElementById('koboeya-result').style.display = 'block';
+            document.getElementById('koboeya-result').classList.add('fade-in');
+            generateAdviceText();
+        }
+
+        async function generateAdviceText() {
+            const textEl = document.getElementById('advice-text');
+            document.getElementById('advice-card-name').innerText = `アドバイスの札：${state.adviceCard.en} ${state.adviceCard.name}`;
+            textEl.innerHTML = '<p class="sub sub-text-color">札が言葉を結んでいます...</p>';
+            let adviceText = '';
+            if(state.isDemo) {
+                await new Promise(r => setTimeout(r, 1000));
+                adviceText = demoScenario.advice.text;
+            } else {
+                try {
+                    const prompt = `${systemPrompt}\nアドバイスの小部屋。テーマ「${state.userTheme}」。本編のカードは「${state.mainCard.name}」だった。\n今、アドバイスとして引いたカードは「${state.adviceCard.name}」。\nこのカードの意味を断定せず、以下の構造で短いアドバイスを生成せよ。\n① カードの視点：このカードから今のテーマを見る。\n② リビジョン：今までとは違う見方を提示。\n③ 小さな一歩：現実で試せそうな具体的行動をひとつ提示。`;
+                    adviceText = await callGemini(prompt);
+                } catch (e) {
+                    adviceText = "（通信に失敗しました。日常の中で、ふと配分を変えてみてください）";
+                }
+            }
+            textEl.innerText = adviceText;
+        }
+
+        function saveApiKey() {
+            const key = document.getElementById('apiKeyInput').value;
+            state.apiKey = key;
+            state.isDemo = !key;
+            document.getElementById('api-key-setting').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
